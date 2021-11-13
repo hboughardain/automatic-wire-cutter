@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|89cf098d-9654-46cd-9694-e8792b9194ac
+C:\Users\Haythem\Documents\PSoC Creator\4.4\Downloads ( 4.4).cylib\Downloads ( 4.4).cyprj|da9f1177-084b-47ea-8e61-6bc1e1eca0a8
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|f0ab5c97-8005-4bdf-8ef6-c8f0cda1fdea
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|195a76b8-15fa-4dbd-bc6e-42a606c792bd
+C:\Program Files (x86)\Cypress\PSoC Creator\4.4\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|5f1c5c2e-5922-4184-a7c7-a3371cf690a9
+C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\PROJ-H402.cyprj|1cd42c3a-fd00-4687-b424-fc84f663e413
+C:\Users\Haythem\Documents\ULB\ELEC-H310\Labo\Projet\Never-lose.cydsn\Never-lose.cyprj|9464054d-6316-4367-8c67-8be3c85f68ef
