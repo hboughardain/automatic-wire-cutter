@@ -1,6 +1,6 @@
 (DELAYFILE
  (SDFVERSION "IEEE 1497 4.0")
- (DATE "2021-11-13T20:13:08Z")
+ (DATE "2021-11-16T22:23:51Z")
  (DESIGN "PROJ-H402")
  (VENDOR "Cypress Semiconductor")
  (PROGRAM "PSoC Creator")
@@ -12,6 +12,10 @@
   (INSTANCE *)
   (DELAY
    (ABSOLUTE
+    (INTERCONNECT ClockBlock.clk_bus_glb StepperMotorTimerInterrupt.clock (0.000:0.000:0.000))
+    (INTERCONNECT \\StepperMotorTimer\:TimerHW\\.irq StepperMotorTimerInterrupt.interrupt (1.000:1.000:1.000))
+    (INTERCONNECT __ONE__.q \\StepperMotorTimer\:TimerHW\\.enable (0.000:0.000:0.000))
+    (INTERCONNECT ClockBlock.clk_bus_glb_ff \\StepperMotorTimer\:TimerHW\\.clock (0.000:0.000:0.000))
     (INTERCONNECT Pin_3\(0\)_PAD Pin_3\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_2\(0\)_PAD Pin_2\(0\).pad_in (0.000:0.000:0.000))
     (INTERCONNECT Pin_1\(0\)_PAD Pin_1\(0\).pad_in (0.000:0.000:0.000))

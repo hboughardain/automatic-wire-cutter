@@ -2,7 +2,7 @@
 --	Conversion of PROJ-H402.v to vh2:
 --
 --	Cypress Semiconductor - WARP Version 6.3 IR 41
---	Sat Nov 13 21:13:05 2021
+--	Tue Nov 16 23:23:48 2021
 --
 
 USE cypress.cypress.all;
@@ -34,6 +34,16 @@ SIGNAL tmpFB_0__Pin_4_net_0 : bit;
 SIGNAL tmpIO_0__Pin_4_net_0 : bit;
 TERMINAL tmpSIOVREF__Pin_4_net_0 : bit;
 SIGNAL tmpINTERRUPT_0__Pin_4_net_0 : bit;
+SIGNAL Net_10 : bit;
+SIGNAL Net_443 : bit;
+SIGNAL \StepperMotorTimer:Net_260\ : bit;
+SIGNAL \StepperMotorTimer:Net_266\ : bit;
+SIGNAL \StepperMotorTimer:Net_51\ : bit;
+SIGNAL \StepperMotorTimer:Net_261\ : bit;
+SIGNAL \StepperMotorTimer:Net_57\ : bit;
+SIGNAL Net_100 : bit;
+SIGNAL Net_101 : bit;
+SIGNAL \StepperMotorTimer:Net_102\ : bit;
 BEGIN
 
 zero <=  ('0') ;
@@ -320,5 +330,29 @@ Pin_4:cy_psoc3_pins_v1_10
 		out_clock_en=>tmpOE__Pin_3_net_0,
 		out_reset=>zero,
 		interrupt=>tmpINTERRUPT_0__Pin_4_net_0);
+TimerClock:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"c0fb34bd-1044-4931-9788-16b01ce89812",
+		source_clock_id=>"75C2148C-3656-4d8a-846D-0CAE99AB6FF7",
+		divisor=>0,
+		period=>"0",
+		is_direct=>'1',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_10,
+		dig_domain_out=>open);
+\StepperMotorTimer:TimerHW\:cy_psoc3_timer_v1_0
+	GENERIC MAP(cy_registers=>"")
+	PORT MAP(clock=>Net_10,
+		kill=>zero,
+		enable=>tmpOE__Pin_3_net_0,
+		capture=>zero,
+		timer_reset=>zero,
+		tc=>\StepperMotorTimer:Net_51\,
+		compare=>\StepperMotorTimer:Net_261\,
+		interrupt=>Net_100);
+StepperMotorTimerInterrupt:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10",
+		is_nmi=>'0')
+	PORT MAP(int_signal=>Net_100);
 
 END R_T_L;

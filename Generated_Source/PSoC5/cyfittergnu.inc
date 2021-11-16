@@ -155,6 +155,34 @@
 .set Pin_4__SHIFT, 5
 .set Pin_4__SLW, CYREG_PRT1_SLW
 
+/* StepperMotorTimer_TimerHW */
+.set StepperMotorTimer_TimerHW__CAP0, CYREG_TMR0_CAP0
+.set StepperMotorTimer_TimerHW__CAP1, CYREG_TMR0_CAP1
+.set StepperMotorTimer_TimerHW__CFG0, CYREG_TMR0_CFG0
+.set StepperMotorTimer_TimerHW__CFG1, CYREG_TMR0_CFG1
+.set StepperMotorTimer_TimerHW__CFG2, CYREG_TMR0_CFG2
+.set StepperMotorTimer_TimerHW__CNT_CMP0, CYREG_TMR0_CNT_CMP0
+.set StepperMotorTimer_TimerHW__CNT_CMP1, CYREG_TMR0_CNT_CMP1
+.set StepperMotorTimer_TimerHW__PER0, CYREG_TMR0_PER0
+.set StepperMotorTimer_TimerHW__PER1, CYREG_TMR0_PER1
+.set StepperMotorTimer_TimerHW__PM_ACT_CFG, CYREG_PM_ACT_CFG3
+.set StepperMotorTimer_TimerHW__PM_ACT_MSK, 0x01
+.set StepperMotorTimer_TimerHW__PM_STBY_CFG, CYREG_PM_STBY_CFG3
+.set StepperMotorTimer_TimerHW__PM_STBY_MSK, 0x01
+.set StepperMotorTimer_TimerHW__RT0, CYREG_TMR0_RT0
+.set StepperMotorTimer_TimerHW__RT1, CYREG_TMR0_RT1
+.set StepperMotorTimer_TimerHW__SR0, CYREG_TMR0_SR0
+
+/* StepperMotorTimerInterrupt */
+.set StepperMotorTimerInterrupt__INTC_CLR_EN_REG, CYREG_NVIC_CLRENA0
+.set StepperMotorTimerInterrupt__INTC_CLR_PD_REG, CYREG_NVIC_CLRPEND0
+.set StepperMotorTimerInterrupt__INTC_MASK, 0x20000
+.set StepperMotorTimerInterrupt__INTC_NUMBER, 17
+.set StepperMotorTimerInterrupt__INTC_PRIOR_NUM, 7
+.set StepperMotorTimerInterrupt__INTC_PRIOR_REG, CYREG_NVIC_PRI_17
+.set StepperMotorTimerInterrupt__INTC_SET_EN_REG, CYREG_NVIC_SETENA0
+.set StepperMotorTimerInterrupt__INTC_SET_PD_REG, CYREG_NVIC_SETPEND0
+
 /* Miscellaneous */
 .set BCLK__BUS_CLK__HZ, 24000000
 .set BCLK__BUS_CLK__KHZ, 24000

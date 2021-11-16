@@ -27,6 +27,8 @@
 #include "Pin_1.h"
 #include "Pin_4_aliases.h"
 #include "Pin_4.h"
+#include "StepperMotorTimer.h"
+#include "StepperMotorTimerInterrupt.h"
 #include "core_cm3_psoc5.h"
 #include "CyDmac.h"
 #include "CyFlash.h"
