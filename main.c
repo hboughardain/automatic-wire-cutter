@@ -1,7 +1,11 @@
 #include "project.h"
 
-double STEP_ANGLE = 1.8;        // value of the step angle from the stepper motor
-int PERIOD = 2;                 // desired period for a full rotation of stepper motor shaft
+#define STEP_ANGLE 1.8          // value of the step angle from the stepper motor
+#define PERIOD 2                // desired period for a full rotation of stepper motor shaft
+#define SERVO_CUT 1800          // PWM value to put servomotor in position to cut wire
+#define SERVO_STRIP 2300        // PWM value to put servomotor in position to strip wire
+
+int servo_position = SERVO_CUT;
 
 /* 
 ** Moves the stepper motor by a single step.
@@ -73,14 +77,33 @@ void turn_motor(int rotations) {
     step((360 / STEP_ANGLE) * rotations);
 }
 
+/* 
+** Changes the servomotor's position between cutting or stripping stance.
+*/
+void toggle_servo_position() {
+    if (servo_position == SERVO_CUT) {
+        servo_position = SERVO_STRIP;
+    } else if (servo_position == SERVO_STRIP) {
+        servo_position = SERVO_CUT;
+    }
+    PWM_WriteCompare(servo_position);
+    CyDelay(500);
+}
+
 int main(void) {
     
     CyGlobalIntEnable;
     StepperMotorTimer_Start();
-    
-    turn_motor(1);
+    PWM_Start();
+    PWM_WriteCompare(SERVO_CUT);
     
     for(;;) {
+        if (SW1_Read()) {
+            toggle_servo_position();
+        }
         
+        if (SW2_Read()) {
+            turn_motor(1);
+        }
     }
 }

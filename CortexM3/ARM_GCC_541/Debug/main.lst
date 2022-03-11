@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 1
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 1
 
 
    1              		.syntax unified
@@ -30,11 +30,27 @@ ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 1
   27              		.file 1 "main.c"
    1:main.c        **** #include "project.h"
    2:main.c        **** 
-   3:main.c        **** double STEP_ANGLE = 1.8;
-   4:main.c        **** int PERIOD = 10;
-   5:main.c        **** 
-   6:main.c        **** void step_motor(int this_step) {
-  28              		.loc 1 6 0
+   3:main.c        **** #define STEP_ANGLE 1.8          // value of the step angle from the stepper motor
+   4:main.c        **** #define PERIOD 2                // desired period for a full rotation of stepper motor shaft
+   5:main.c        **** #define SERVO_CUT 1800          // PWM value to put servomotor in position to cut wire
+   6:main.c        **** #define SERVO_STRIP 2300        // PWM value to put servomotor in position to strip wire
+   7:main.c        **** 
+   8:main.c        **** int servo_position = SERVO_CUT;
+   9:main.c        **** 
+  10:main.c        **** /* 
+  11:main.c        **** ** Moves the stepper motor by a single step.
+  12:main.c        **** ** The sequence of control signals for 4 control wires is as follows:
+  13:main.c        **** **
+  14:main.c        **** ** Step P1  P2  P3  P4
+  15:main.c        **** **  1   1   0   1   0
+  16:main.c        **** **  2   0   1   1   0
+  17:main.c        **** **  3   0   1   0   1
+  18:main.c        **** **  4   1   0   0   1
+  19:main.c        **** ** (inspired by Arduino stepper motor library
+  20:main.c        **** ** https://github.com/arduino-libraries/Stepper/blob/master/src/Stepper.cpp)
+  21:main.c        **** */
+  22:main.c        **** void step_motor(int step) {
+  28              		.loc 1 22 0
   29              		.cfi_startproc
   30              		@ args = 0, pretend = 0, frame = 0
   31              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -42,9 +58,12 @@ ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 1
   33 0000 08B5     		push	{r3, lr}
   34              		.cfi_def_cfa_offset 8
   35              		.cfi_offset 3, -8
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 2
+
+
   36              		.cfi_offset 14, -4
-   7:main.c        ****     switch (this_step) {
-  37              		.loc 1 7 0
+  23:main.c        ****     switch (step) {
+  37              		.loc 1 23 0
   38 0002 0328     		cmp	r0, #3
   39 0004 36D8     		bhi	.L1
   40 0006 DFE800F0 		tbb	[pc, r0]
@@ -55,113 +74,113 @@ ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 1
   45 000d 29       		.byte	(.L7-.L4)/2
   46              		.p2align 1
   47              	.L3:
-   8:main.c        ****         case 0:
-   9:main.c        ****             Pin_1_Write(1);
-  48              		.loc 1 9 0
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 2
-
-
+  24:main.c        ****         case 0:
+  25:main.c        ****             Pin_1_Write(1);
+  48              		.loc 1 25 0
   49 000e 0120     		movs	r0, #1
   50              	.LVL1:
   51 0010 FFF7FEFF 		bl	Pin_1_Write
   52              	.LVL2:
-  10:main.c        ****             Pin_2_Write(0);
-  53              		.loc 1 10 0
+  26:main.c        ****             Pin_2_Write(0);
+  53              		.loc 1 26 0
   54 0014 0020     		movs	r0, #0
   55 0016 FFF7FEFF 		bl	Pin_2_Write
   56              	.LVL3:
-  11:main.c        ****             Pin_3_Write(1);
-  57              		.loc 1 11 0
+  27:main.c        ****             Pin_3_Write(1);
+  57              		.loc 1 27 0
   58 001a 0120     		movs	r0, #1
   59 001c FFF7FEFF 		bl	Pin_3_Write
   60              	.LVL4:
-  12:main.c        ****             Pin_4_Write(0);
-  61              		.loc 1 12 0
+  28:main.c        ****             Pin_4_Write(0);
+  61              		.loc 1 28 0
   62 0020 0020     		movs	r0, #0
   63 0022 FFF7FEFF 		bl	Pin_4_Write
   64              	.LVL5:
-  13:main.c        ****             break;
-  65              		.loc 1 13 0
+  29:main.c        ****             break;
+  65              		.loc 1 29 0
   66 0026 08BD     		pop	{r3, pc}
   67              	.LVL6:
   68              	.L5:
-  14:main.c        ****         case 1:
-  15:main.c        ****             Pin_1_Write(0);
-  69              		.loc 1 15 0
+  30:main.c        ****         case 1:
+  31:main.c        ****             Pin_1_Write(0);
+  69              		.loc 1 31 0
   70 0028 0020     		movs	r0, #0
   71              	.LVL7:
   72 002a FFF7FEFF 		bl	Pin_1_Write
   73              	.LVL8:
-  16:main.c        ****             Pin_2_Write(1);
-  74              		.loc 1 16 0
+  32:main.c        ****             Pin_2_Write(1);
+  74              		.loc 1 32 0
   75 002e 0120     		movs	r0, #1
   76 0030 FFF7FEFF 		bl	Pin_2_Write
   77              	.LVL9:
-  17:main.c        ****             Pin_3_Write(1);
-  78              		.loc 1 17 0
+  33:main.c        ****             Pin_3_Write(1);
+  78              		.loc 1 33 0
   79 0034 0120     		movs	r0, #1
   80 0036 FFF7FEFF 		bl	Pin_3_Write
   81              	.LVL10:
-  18:main.c        ****             Pin_4_Write(0);
-  82              		.loc 1 18 0
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 3
+
+
+  34:main.c        ****             Pin_4_Write(0);
+  82              		.loc 1 34 0
   83 003a 0020     		movs	r0, #0
   84 003c FFF7FEFF 		bl	Pin_4_Write
   85              	.LVL11:
-  19:main.c        ****             break;
-  86              		.loc 1 19 0
+  35:main.c        ****             break;
+  86              		.loc 1 35 0
   87 0040 08BD     		pop	{r3, pc}
   88              	.LVL12:
   89              	.L6:
-  20:main.c        ****         case 2:
-  21:main.c        ****             Pin_1_Write(0);
-  90              		.loc 1 21 0
+  36:main.c        ****         case 2:
+  37:main.c        ****             Pin_1_Write(0);
+  90              		.loc 1 37 0
   91 0042 0020     		movs	r0, #0
   92              	.LVL13:
   93 0044 FFF7FEFF 		bl	Pin_1_Write
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 3
-
-
   94              	.LVL14:
-  22:main.c        ****             Pin_2_Write(1);
-  95              		.loc 1 22 0
+  38:main.c        ****             Pin_2_Write(1);
+  95              		.loc 1 38 0
   96 0048 0120     		movs	r0, #1
   97 004a FFF7FEFF 		bl	Pin_2_Write
   98              	.LVL15:
-  23:main.c        ****             Pin_3_Write(0);
-  99              		.loc 1 23 0
+  39:main.c        ****             Pin_3_Write(0);
+  99              		.loc 1 39 0
  100 004e 0020     		movs	r0, #0
  101 0050 FFF7FEFF 		bl	Pin_3_Write
  102              	.LVL16:
-  24:main.c        ****             Pin_4_Write(1);
- 103              		.loc 1 24 0
+  40:main.c        ****             Pin_4_Write(1);
+ 103              		.loc 1 40 0
  104 0054 0120     		movs	r0, #1
  105 0056 FFF7FEFF 		bl	Pin_4_Write
  106              	.LVL17:
-  25:main.c        ****             break;
- 107              		.loc 1 25 0
+  41:main.c        ****             break;
+ 107              		.loc 1 41 0
  108 005a 08BD     		pop	{r3, pc}
  109              	.LVL18:
  110              	.L7:
-  26:main.c        ****         case 3:
-  27:main.c        ****             Pin_1_Write(1);
- 111              		.loc 1 27 0
+  42:main.c        ****         case 3:
+  43:main.c        ****             Pin_1_Write(1);
+ 111              		.loc 1 43 0
  112 005c 0120     		movs	r0, #1
  113              	.LVL19:
  114 005e FFF7FEFF 		bl	Pin_1_Write
  115              	.LVL20:
-  28:main.c        ****             Pin_2_Write(0);
- 116              		.loc 1 28 0
+  44:main.c        ****             Pin_2_Write(0);
+ 116              		.loc 1 44 0
  117 0062 0020     		movs	r0, #0
  118 0064 FFF7FEFF 		bl	Pin_2_Write
  119              	.LVL21:
-  29:main.c        ****             Pin_3_Write(0);
- 120              		.loc 1 29 0
+  45:main.c        ****             Pin_3_Write(0);
+ 120              		.loc 1 45 0
  121 0068 0020     		movs	r0, #0
  122 006a FFF7FEFF 		bl	Pin_3_Write
  123              	.LVL22:
-  30:main.c        ****             Pin_4_Write(1);
- 124              		.loc 1 30 0
+  46:main.c        ****             Pin_4_Write(1);
+ 124              		.loc 1 46 0
  125 006e 0120     		movs	r0, #1
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 4
+
+
  126 0070 FFF7FEFF 		bl	Pin_4_Write
  127              	.LVL23:
  128              	.L1:
@@ -177,15 +196,18 @@ ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 1
  138              		.type	step, %function
  139              	step:
  140              	.LFB64:
-  31:main.c        ****             break;
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 4
-
-
-  32:main.c        ****     }
-  33:main.c        **** }
-  34:main.c        **** 
-  35:main.c        **** void step(int steps_to_move) {
- 141              		.loc 1 35 0
+  47:main.c        ****             break;
+  48:main.c        ****     }
+  49:main.c        **** }
+  50:main.c        **** 
+  51:main.c        **** /* 
+  52:main.c        **** ** Moves the stepper motor by the specified number of steps
+  53:main.c        **** ** This method uses a timer to create a big enough delay between steps
+  54:main.c        **** ** The timer has a 1 kHz frequency; by using counters, this allows to
+  55:main.c        **** ** modulate the frequency as wanted. By default, the frequency is 100 Hz.
+  56:main.c        **** */
+  57:main.c        **** void step(int steps_to_move) {
+ 141              		.loc 1 57 0
  142              		.cfi_startproc
  143              		@ args = 0, pretend = 0, frame = 0
  144              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -198,1261 +220,1453 @@ ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 1
  151              		.cfi_offset 14, -4
  152 0002 0646     		mov	r6, r0
  153              	.LVL25:
-  36:main.c        ****     int steps_left = steps_to_move;
- 154              		.loc 1 36 0
+  58:main.c        ****     int steps_left = steps_to_move;
+ 154              		.loc 1 58 0
  155 0004 0446     		mov	r4, r0
-  37:main.c        ****     int counter = 0;
- 156              		.loc 1 37 0
+  59:main.c        ****     int counter = 0;
+ 156              		.loc 1 59 0
  157 0006 0025     		movs	r5, #0
-  38:main.c        ****     while (steps_left > 0) {
- 158              		.loc 1 38 0
- 159 0008 15E0     		b	.L10
+  60:main.c        ****     while (steps_left > 0) {
+ 158              		.loc 1 60 0
+ 159 0008 13E0     		b	.L10
  160              	.LVL26:
  161              	.L13:
-  39:main.c        ****         if ((StepperMotorTimer_STATUS_TC & StepperMotorTimer_ReadStatusRegister()) != 0) {
- 162              		.loc 1 39 0
+  61:main.c        ****         if ((StepperMotorTimer_STATUS_TC & StepperMotorTimer_ReadStatusRegister()) != 0) {
+ 162              		.loc 1 61 0
  163 000a FFF7FEFF 		bl	StepperMotorTimer_ReadStatusRegister
  164              	.LVL27:
  165 000e 10F0800F 		tst	r0, #128
- 166 0012 10D0     		beq	.L10
-  40:main.c        ****             counter++;
- 167              		.loc 1 40 0
+ 166 0012 0ED0     		beq	.L10
+  62:main.c        ****             counter++;
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 5
+
+
+ 167              		.loc 1 62 0
  168 0014 0135     		adds	r5, r5, #1
  169              	.LVL28:
-  41:main.c        ****             if (counter == PERIOD) {
- 170              		.loc 1 41 0
- 171 0016 094B     		ldr	r3, .L15
- 172 0018 1B68     		ldr	r3, [r3]
- 173 001a 9D42     		cmp	r5, r3
- 174 001c 0BD1     		bne	.L10
-  42:main.c        ****                 step_motor((steps_to_move - steps_left) % 4);
- 175              		.loc 1 42 0
- 176 001e 301B     		subs	r0, r6, r4
- 177 0020 074B     		ldr	r3, .L15+4
- 178 0022 1840     		ands	r0, r0, r3
- 179 0024 03D5     		bpl	.L12
- 180 0026 0138     		subs	r0, r0, #1
- 181 0028 60F00300 		orn	r0, r0, #3
- 182 002c 0130     		adds	r0, r0, #1
- 183              	.L12:
- 184 002e FFF7FEFF 		bl	step_motor
- 185              	.LVL29:
-  43:main.c        ****                 steps_left--;
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 5
+  63:main.c        ****             if (counter == 5 * PERIOD) {
+ 170              		.loc 1 63 0
+ 171 0016 0A2D     		cmp	r5, #10
+ 172 0018 0BD1     		bne	.L10
+  64:main.c        ****                 step_motor((steps_to_move - steps_left) % 4);
+ 173              		.loc 1 64 0
+ 174 001a 301B     		subs	r0, r6, r4
+ 175 001c 064B     		ldr	r3, .L15
+ 176 001e 1840     		ands	r0, r0, r3
+ 177 0020 03D5     		bpl	.L12
+ 178 0022 0138     		subs	r0, r0, #1
+ 179 0024 60F00300 		orn	r0, r0, #3
+ 180 0028 0130     		adds	r0, r0, #1
+ 181              	.L12:
+ 182 002a FFF7FEFF 		bl	step_motor
+ 183              	.LVL29:
+  65:main.c        ****                 steps_left--;
+ 184              		.loc 1 65 0
+ 185 002e 013C     		subs	r4, r4, #1
+ 186              	.LVL30:
+  66:main.c        ****                 counter = 0;
+ 187              		.loc 1 66 0
+ 188 0030 0025     		movs	r5, #0
+ 189              	.LVL31:
+ 190              	.L10:
+  60:main.c        ****         if ((StepperMotorTimer_STATUS_TC & StepperMotorTimer_ReadStatusRegister()) != 0) {
+ 191              		.loc 1 60 0
+ 192 0032 002C     		cmp	r4, #0
+ 193 0034 E9DC     		bgt	.L13
+  67:main.c        ****             }
+  68:main.c        ****         }
+  69:main.c        ****     }
+  70:main.c        **** }
+ 194              		.loc 1 70 0
+ 195 0036 70BD     		pop	{r4, r5, r6, pc}
+ 196              	.LVL32:
+ 197              	.L16:
+ 198              		.align	2
+ 199              	.L15:
+ 200 0038 03000080 		.word	-2147483645
+ 201              		.cfi_endproc
+ 202              	.LFE64:
+ 203              		.size	step, .-step
+ 204              		.global	__aeabi_i2d
+ 205              		.global	__aeabi_dmul
+ 206              		.global	__aeabi_d2iz
+ 207              		.section	.text.turn_motor,"ax",%progbits
+ 208              		.align	2
+ 209              		.global	turn_motor
+ 210              		.thumb
+ 211              		.thumb_func
+ 212              		.type	turn_motor, %function
+ 213              	turn_motor:
+ 214              	.LFB65:
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 6
 
 
- 186              		.loc 1 43 0
- 187 0032 013C     		subs	r4, r4, #1
- 188              	.LVL30:
-  44:main.c        ****                 counter = 0;
- 189              		.loc 1 44 0
- 190 0034 0025     		movs	r5, #0
- 191              	.LVL31:
- 192              	.L10:
-  38:main.c        ****         if ((StepperMotorTimer_STATUS_TC & StepperMotorTimer_ReadStatusRegister()) != 0) {
- 193              		.loc 1 38 0
- 194 0036 002C     		cmp	r4, #0
- 195 0038 E7DC     		bgt	.L13
-  45:main.c        ****             }
-  46:main.c        ****         }
-  47:main.c        ****     }
-  48:main.c        **** }
- 196              		.loc 1 48 0
- 197 003a 70BD     		pop	{r4, r5, r6, pc}
- 198              	.LVL32:
- 199              	.L16:
- 200              		.align	2
- 201              	.L15:
- 202 003c 00000000 		.word	.LANCHOR0
- 203 0040 03000080 		.word	-2147483645
- 204              		.cfi_endproc
- 205              	.LFE64:
- 206              		.size	step, .-step
- 207              		.global	__aeabi_ddiv
- 208              		.global	__aeabi_i2d
- 209              		.global	__aeabi_dmul
- 210              		.global	__aeabi_d2iz
- 211              		.section	.text.turn_motor,"ax",%progbits
- 212              		.align	2
- 213              		.global	turn_motor
- 214              		.thumb
- 215              		.thumb_func
- 216              		.type	turn_motor, %function
- 217              	turn_motor:
- 218              	.LFB65:
-  49:main.c        **** 
-  50:main.c        **** void turn_motor(int rotations) {
- 219              		.loc 1 50 0
- 220              		.cfi_startproc
- 221              		@ args = 0, pretend = 0, frame = 0
- 222              		@ frame_needed = 0, uses_anonymous_args = 0
- 223              	.LVL33:
- 224 0000 70B5     		push	{r4, r5, r6, lr}
- 225              		.cfi_def_cfa_offset 16
- 226              		.cfi_offset 4, -16
- 227              		.cfi_offset 5, -12
- 228              		.cfi_offset 6, -8
- 229              		.cfi_offset 14, -4
- 230 0002 0646     		mov	r6, r0
-  51:main.c        ****     step((360 / STEP_ANGLE) * rotations);
- 231              		.loc 1 51 0
- 232 0004 0A4B     		ldr	r3, .L19
- 233 0006 D3E90223 		ldrd	r2, [r3, #8]
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 6
+  71:main.c        **** 
+  72:main.c        **** /* 
+  73:main.c        **** ** Moves the stepper motor by the specified number of rotations
+  74:main.c        **** ** by using the measured step angle.
+  75:main.c        **** */
+  76:main.c        **** void turn_motor(int rotations) {
+ 215              		.loc 1 76 0
+ 216              		.cfi_startproc
+ 217              		@ args = 0, pretend = 0, frame = 0
+ 218              		@ frame_needed = 0, uses_anonymous_args = 0
+ 219              	.LVL33:
+ 220 0000 08B5     		push	{r3, lr}
+ 221              		.cfi_def_cfa_offset 8
+ 222              		.cfi_offset 3, -8
+ 223              		.cfi_offset 14, -4
+  77:main.c        ****     step((360 / STEP_ANGLE) * rotations);
+ 224              		.loc 1 77 0
+ 225 0002 FFF7FEFF 		bl	__aeabi_i2d
+ 226              	.LVL34:
+ 227 0006 0022     		movs	r2, #0
+ 228 0008 034B     		ldr	r3, .L19
+ 229 000a FFF7FEFF 		bl	__aeabi_dmul
+ 230              	.LVL35:
+ 231 000e FFF7FEFF 		bl	__aeabi_d2iz
+ 232              	.LVL36:
+ 233 0012 FFF7FEFF 		bl	step
+ 234              	.LVL37:
+ 235 0016 08BD     		pop	{r3, pc}
+ 236              	.L20:
+ 237              		.align	2
+ 238              	.L19:
+ 239 0018 00006940 		.word	1080623104
+ 240              		.cfi_endproc
+ 241              	.LFE65:
+ 242              		.size	turn_motor, .-turn_motor
+ 243              		.section	.text.toggle_servo_position,"ax",%progbits
+ 244              		.align	2
+ 245              		.global	toggle_servo_position
+ 246              		.thumb
+ 247              		.thumb_func
+ 248              		.type	toggle_servo_position, %function
+ 249              	toggle_servo_position:
+ 250              	.LFB66:
+  78:main.c        **** }
+  79:main.c        **** 
+  80:main.c        **** /* 
+  81:main.c        **** ** Changes the servomotor's position between cutting or stripping stance.
+  82:main.c        **** */
+  83:main.c        **** void toggle_servo_position() {
+ 251              		.loc 1 83 0
+ 252              		.cfi_startproc
+ 253              		@ args = 0, pretend = 0, frame = 0
+ 254              		@ frame_needed = 0, uses_anonymous_args = 0
+ 255 0000 08B5     		push	{r3, lr}
+ 256              		.cfi_def_cfa_offset 8
+ 257              		.cfi_offset 3, -8
+ 258              		.cfi_offset 14, -4
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 7
 
 
- 234 000a 0020     		movs	r0, #0
- 235              	.LVL34:
- 236 000c 0949     		ldr	r1, .L19+4
- 237 000e FFF7FEFF 		bl	__aeabi_ddiv
- 238              	.LVL35:
- 239 0012 0446     		mov	r4, r0
- 240 0014 0D46     		mov	r5, r1
- 241 0016 3046     		mov	r0, r6
- 242 0018 FFF7FEFF 		bl	__aeabi_i2d
- 243              	.LVL36:
- 244 001c 2246     		mov	r2, r4
- 245 001e 2B46     		mov	r3, r5
- 246 0020 FFF7FEFF 		bl	__aeabi_dmul
- 247              	.LVL37:
- 248 0024 FFF7FEFF 		bl	__aeabi_d2iz
- 249              	.LVL38:
- 250 0028 FFF7FEFF 		bl	step
- 251              	.LVL39:
- 252 002c 70BD     		pop	{r4, r5, r6, pc}
- 253              	.LVL40:
- 254              	.L20:
- 255 002e 00BF     		.align	2
- 256              	.L19:
- 257 0030 00000000 		.word	.LANCHOR0
- 258 0034 00807640 		.word	1081507840
- 259              		.cfi_endproc
- 260              	.LFE65:
- 261              		.size	turn_motor, .-turn_motor
- 262              		.section	.text.main,"ax",%progbits
- 263              		.align	2
- 264              		.global	main
- 265              		.thumb
- 266              		.thumb_func
- 267              		.type	main, %function
- 268              	main:
- 269              	.LFB66:
-  52:main.c        **** }
-  53:main.c        **** 
-  54:main.c        **** int main(void) {
- 270              		.loc 1 54 0
- 271              		.cfi_startproc
- 272              		@ Volatile: function does not return.
- 273              		@ args = 0, pretend = 0, frame = 0
- 274              		@ frame_needed = 0, uses_anonymous_args = 0
- 275 0000 08B5     		push	{r3, lr}
- 276              		.cfi_def_cfa_offset 8
- 277              		.cfi_offset 3, -8
- 278              		.cfi_offset 14, -4
-  55:main.c        ****     
-  56:main.c        ****     CyGlobalIntEnable;
- 279              		.loc 1 56 0
- 280              		.syntax unified
- 281              	@ 56 "main.c" 1
- 282 0002 62B6     		CPSIE   i
- 283              	@ 0 "" 2
-  57:main.c        ****     StepperMotorTimer_Start();
- 284              		.loc 1 57 0
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 7
+  84:main.c        ****     if (servo_position == SERVO_CUT) {
+ 259              		.loc 1 84 0
+ 260 0002 0D4B     		ldr	r3, .L25
+ 261 0004 1B68     		ldr	r3, [r3]
+ 262 0006 B3F5E16F 		cmp	r3, #1800
+ 263 000a 04D1     		bne	.L22
+  85:main.c        ****         servo_position = SERVO_STRIP;
+ 264              		.loc 1 85 0
+ 265 000c 40F6FC02 		movw	r2, #2300
+ 266 0010 094B     		ldr	r3, .L25
+ 267 0012 1A60     		str	r2, [r3]
+ 268 0014 07E0     		b	.L23
+ 269              	.L22:
+  86:main.c        ****     } else if (servo_position == SERVO_STRIP) {
+ 270              		.loc 1 86 0
+ 271 0016 40F6FC02 		movw	r2, #2300
+ 272 001a 9342     		cmp	r3, r2
+ 273 001c 03D1     		bne	.L23
+  87:main.c        ****         servo_position = SERVO_CUT;
+ 274              		.loc 1 87 0
+ 275 001e 4FF4E162 		mov	r2, #1800
+ 276 0022 054B     		ldr	r3, .L25
+ 277 0024 1A60     		str	r2, [r3]
+ 278              	.L23:
+  88:main.c        ****     }
+  89:main.c        ****     PWM_WriteCompare(servo_position);
+ 279              		.loc 1 89 0
+ 280 0026 044B     		ldr	r3, .L25
+ 281 0028 1888     		ldrh	r0, [r3]
+ 282 002a FFF7FEFF 		bl	PWM_WriteCompare
+ 283              	.LVL38:
+  90:main.c        ****     CyDelay(500);
+ 284              		.loc 1 90 0
+ 285 002e 4FF4FA70 		mov	r0, #500
+ 286 0032 FFF7FEFF 		bl	CyDelay
+ 287              	.LVL39:
+ 288 0036 08BD     		pop	{r3, pc}
+ 289              	.L26:
+ 290              		.align	2
+ 291              	.L25:
+ 292 0038 00000000 		.word	.LANCHOR0
+ 293              		.cfi_endproc
+ 294              	.LFE66:
+ 295              		.size	toggle_servo_position, .-toggle_servo_position
+ 296              		.section	.text.main,"ax",%progbits
+ 297              		.align	2
+ 298              		.global	main
+ 299              		.thumb
+ 300              		.thumb_func
+ 301              		.type	main, %function
+ 302              	main:
+ 303              	.LFB67:
+  91:main.c        **** }
+  92:main.c        **** 
+  93:main.c        **** int main(void) {
+ 304              		.loc 1 93 0
+ 305              		.cfi_startproc
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 8
 
 
- 285              		.thumb
- 286              		.syntax unified
- 287 0004 FFF7FEFF 		bl	StepperMotorTimer_Start
- 288              	.LVL41:
-  58:main.c        ****     
-  59:main.c        ****     turn_motor(1);
- 289              		.loc 1 59 0
- 290 0008 0120     		movs	r0, #1
- 291 000a FFF7FEFF 		bl	turn_motor
- 292              	.LVL42:
- 293              	.L22:
- 294 000e FEE7     		b	.L22
- 295              		.cfi_endproc
- 296              	.LFE66:
- 297              		.size	main, .-main
- 298              		.global	PERIOD
- 299              		.global	STEP_ANGLE
- 300              		.data
- 301              		.align	3
- 302              		.set	.LANCHOR0,. + 0
- 303              		.type	PERIOD, %object
- 304              		.size	PERIOD, 4
- 305              	PERIOD:
- 306 0000 0A000000 		.word	10
- 307 0004 00000000 		.space	4
- 308              		.type	STEP_ANGLE, %object
- 309              		.size	STEP_ANGLE, 8
- 310              	STEP_ANGLE:
- 311 0008 CDCCCCCC 		.word	-858993459
- 312 000c CCCCFC3F 		.word	1073532108
- 313              		.text
- 314              	.Letext0:
- 315              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
- 316              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
- 317              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
- 318              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
- 319              		.file 6 "Generated_Source\\PSoC5/Pin_1.h"
- 320              		.file 7 "Generated_Source\\PSoC5/Pin_2.h"
- 321              		.file 8 "Generated_Source\\PSoC5/Pin_3.h"
- 322              		.file 9 "Generated_Source\\PSoC5/Pin_4.h"
- 323              		.file 10 "Generated_Source\\PSoC5/StepperMotorTimer.h"
- 324              		.section	.debug_info,"",%progbits
- 325              	.Ldebug_info0:
- 326 0000 28030000 		.4byte	0x328
- 327 0004 0400     		.2byte	0x4
- 328 0006 00000000 		.4byte	.Ldebug_abbrev0
- 329 000a 04       		.byte	0x4
- 330 000b 01       		.uleb128 0x1
- 331 000c CF000000 		.4byte	.LASF34
- 332 0010 0C       		.byte	0xc
- 333 0011 22020000 		.4byte	.LASF35
- 334 0015 3C000000 		.4byte	.LASF36
- 335 0019 00000000 		.4byte	.Ldebug_ranges0+0
- 336 001d 00000000 		.4byte	0
- 337 0021 00000000 		.4byte	.Ldebug_line0
- 338 0025 02       		.uleb128 0x2
- 339 0026 01       		.byte	0x1
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 8
+ 306              		@ Volatile: function does not return.
+ 307              		@ args = 0, pretend = 0, frame = 0
+ 308              		@ frame_needed = 0, uses_anonymous_args = 0
+ 309 0000 08B5     		push	{r3, lr}
+ 310              		.cfi_def_cfa_offset 8
+ 311              		.cfi_offset 3, -8
+ 312              		.cfi_offset 14, -4
+  94:main.c        ****     
+  95:main.c        ****     CyGlobalIntEnable;
+ 313              		.loc 1 95 0
+ 314              		.syntax unified
+ 315              	@ 95 "main.c" 1
+ 316 0002 62B6     		CPSIE   i
+ 317              	@ 0 "" 2
+  96:main.c        ****     StepperMotorTimer_Start();
+ 318              		.loc 1 96 0
+ 319              		.thumb
+ 320              		.syntax unified
+ 321 0004 FFF7FEFF 		bl	StepperMotorTimer_Start
+ 322              	.LVL40:
+  97:main.c        ****     PWM_Start();
+ 323              		.loc 1 97 0
+ 324 0008 FFF7FEFF 		bl	PWM_Start
+ 325              	.LVL41:
+  98:main.c        ****     PWM_WriteCompare(SERVO_CUT);
+ 326              		.loc 1 98 0
+ 327 000c 4FF4E160 		mov	r0, #1800
+ 328 0010 FFF7FEFF 		bl	PWM_WriteCompare
+ 329              	.LVL42:
+ 330              	.L29:
+  99:main.c        ****     
+ 100:main.c        ****     for(;;) {
+ 101:main.c        ****         if (SW1_Read()) {
+ 331              		.loc 1 101 0
+ 332 0014 FFF7FEFF 		bl	SW1_Read
+ 333              	.LVL43:
+ 334 0018 08B1     		cbz	r0, .L28
+ 102:main.c        ****             toggle_servo_position();
+ 335              		.loc 1 102 0
+ 336 001a FFF7FEFF 		bl	toggle_servo_position
+ 337              	.LVL44:
+ 338              	.L28:
+ 103:main.c        ****         }
+ 104:main.c        ****         
+ 105:main.c        ****         if (SW2_Read()) {
+ 339              		.loc 1 105 0
+ 340 001e FFF7FEFF 		bl	SW2_Read
+ 341              	.LVL45:
+ 342 0022 0028     		cmp	r0, #0
+ 343 0024 F6D0     		beq	.L29
+ 106:main.c        ****             turn_motor(1);
+ 344              		.loc 1 106 0
+ 345 0026 0120     		movs	r0, #1
+ 346 0028 FFF7FEFF 		bl	turn_motor
+ 347              	.LVL46:
+ 348 002c F2E7     		b	.L29
+ 349              		.cfi_endproc
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 9
 
 
- 340 0027 06       		.byte	0x6
- 341 0028 53020000 		.4byte	.LASF0
- 342 002c 02       		.uleb128 0x2
- 343 002d 01       		.byte	0x1
- 344 002e 08       		.byte	0x8
- 345 002f C1000000 		.4byte	.LASF1
- 346 0033 02       		.uleb128 0x2
- 347 0034 02       		.byte	0x2
- 348 0035 05       		.byte	0x5
- 349 0036 2E020000 		.4byte	.LASF2
- 350 003a 02       		.uleb128 0x2
- 351 003b 02       		.byte	0x2
- 352 003c 07       		.byte	0x7
- 353 003d 6F010000 		.4byte	.LASF3
- 354 0041 03       		.uleb128 0x3
- 355 0042 86000000 		.4byte	.LASF9
- 356 0046 02       		.byte	0x2
- 357 0047 3F       		.byte	0x3f
- 358 0048 4C000000 		.4byte	0x4c
- 359 004c 02       		.uleb128 0x2
- 360 004d 04       		.byte	0x4
- 361 004e 05       		.byte	0x5
- 362 004f 3E020000 		.4byte	.LASF4
- 363 0053 02       		.uleb128 0x2
- 364 0054 04       		.byte	0x4
- 365 0055 07       		.byte	0x7
- 366 0056 5D010000 		.4byte	.LASF5
- 367 005a 02       		.uleb128 0x2
- 368 005b 08       		.byte	0x8
- 369 005c 05       		.byte	0x5
- 370 005d 14020000 		.4byte	.LASF6
- 371 0061 02       		.uleb128 0x2
- 372 0062 08       		.byte	0x8
- 373 0063 07       		.byte	0x7
- 374 0064 D8010000 		.4byte	.LASF7
- 375 0068 04       		.uleb128 0x4
- 376 0069 04       		.byte	0x4
- 377 006a 05       		.byte	0x5
- 378 006b 696E7400 		.ascii	"int\000"
- 379 006f 02       		.uleb128 0x2
- 380 0070 04       		.byte	0x4
- 381 0071 07       		.byte	0x7
- 382 0072 BD010000 		.4byte	.LASF8
- 383 0076 03       		.uleb128 0x3
- 384 0077 03020000 		.4byte	.LASF10
- 385 007b 03       		.byte	0x3
- 386 007c 2C       		.byte	0x2c
- 387 007d 41000000 		.4byte	0x41
- 388 0081 05       		.uleb128 0x5
- 389 0082 38020000 		.4byte	.LASF11
- 390 0086 04       		.byte	0x4
- 391 0087 E901     		.2byte	0x1e9
- 392 0089 2C000000 		.4byte	0x2c
- 393 008d 02       		.uleb128 0x2
- 394 008e 04       		.byte	0x4
- 395 008f 04       		.byte	0x4
- 396 0090 B3000000 		.4byte	.LASF12
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 9
+ 350              	.LFE67:
+ 351              		.size	main, .-main
+ 352              		.global	servo_position
+ 353 002e 00BF     		.data
+ 354              		.align	2
+ 355              		.set	.LANCHOR0,. + 0
+ 356              		.type	servo_position, %object
+ 357              		.size	servo_position, 4
+ 358              	servo_position:
+ 359 0000 08070000 		.word	1800
+ 360              		.text
+ 361              	.Letext0:
+ 362              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 363              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.4\\psoc creator\\import\\gnu\\arm\\5.4.
+ 364              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 365              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 366              		.file 6 "Generated_Source\\PSoC5/Pin_1.h"
+ 367              		.file 7 "Generated_Source\\PSoC5/Pin_2.h"
+ 368              		.file 8 "Generated_Source\\PSoC5/Pin_3.h"
+ 369              		.file 9 "Generated_Source\\PSoC5/Pin_4.h"
+ 370              		.file 10 "Generated_Source\\PSoC5/StepperMotorTimer.h"
+ 371              		.file 11 "Generated_Source\\PSoC5/PWM.h"
+ 372              		.file 12 "Generated_Source\\PSoC5/CyLib.h"
+ 373              		.file 13 "Generated_Source\\PSoC5/SW1.h"
+ 374              		.file 14 "Generated_Source\\PSoC5/SW2.h"
+ 375              		.section	.debug_info,"",%progbits
+ 376              	.Ldebug_info0:
+ 377 0000 B7030000 		.4byte	0x3b7
+ 378 0004 0400     		.2byte	0x4
+ 379 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 380 000a 04       		.byte	0x4
+ 381 000b 01       		.uleb128 0x1
+ 382 000c E2000000 		.4byte	.LASF37
+ 383 0010 0C       		.byte	0xc
+ 384 0011 54020000 		.4byte	.LASF38
+ 385 0015 45000000 		.4byte	.LASF39
+ 386 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 387 001d 00000000 		.4byte	0
+ 388 0021 00000000 		.4byte	.Ldebug_line0
+ 389 0025 02       		.uleb128 0x2
+ 390 0026 01       		.byte	0x1
+ 391 0027 06       		.byte	0x6
+ 392 0028 89020000 		.4byte	.LASF0
+ 393 002c 02       		.uleb128 0x2
+ 394 002d 01       		.byte	0x1
+ 395 002e 08       		.byte	0x8
+ 396 002f D4000000 		.4byte	.LASF1
+ 397 0033 02       		.uleb128 0x2
+ 398 0034 02       		.byte	0x2
+ 399 0035 05       		.byte	0x5
+ 400 0036 60020000 		.4byte	.LASF2
+ 401 003a 02       		.uleb128 0x2
+ 402 003b 02       		.byte	0x2
+ 403 003c 07       		.byte	0x7
+ 404 003d 82010000 		.4byte	.LASF3
+ 405 0041 03       		.uleb128 0x3
+ 406 0042 8F000000 		.4byte	.LASF9
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 10
 
 
- 397 0094 02       		.uleb128 0x2
- 398 0095 08       		.byte	0x8
- 399 0096 04       		.byte	0x4
- 400 0097 A4010000 		.4byte	.LASF13
- 401 009b 02       		.uleb128 0x2
- 402 009c 01       		.byte	0x1
- 403 009d 08       		.byte	0x8
- 404 009e 29020000 		.4byte	.LASF14
- 405 00a2 02       		.uleb128 0x2
- 406 00a3 08       		.byte	0x8
- 407 00a4 04       		.byte	0x4
- 408 00a5 47020000 		.4byte	.LASF15
- 409 00a9 02       		.uleb128 0x2
- 410 00aa 04       		.byte	0x4
- 411 00ab 07       		.byte	0x7
- 412 00ac 0B020000 		.4byte	.LASF16
- 413 00b0 06       		.uleb128 0x6
- 414 00b1 31000000 		.4byte	.LASF17
- 415 00b5 01       		.byte	0x1
- 416 00b6 06       		.byte	0x6
- 417 00b7 00000000 		.4byte	.LFB63
- 418 00bb 76000000 		.4byte	.LFE63-.LFB63
- 419 00bf 01       		.uleb128 0x1
- 420 00c0 9C       		.byte	0x9c
- 421 00c1 01020000 		.4byte	0x201
- 422 00c5 07       		.uleb128 0x7
- 423 00c6 EF010000 		.4byte	.LASF19
- 424 00ca 01       		.byte	0x1
- 425 00cb 06       		.byte	0x6
- 426 00cc 68000000 		.4byte	0x68
- 427 00d0 00000000 		.4byte	.LLST0
- 428 00d4 08       		.uleb128 0x8
- 429 00d5 14000000 		.4byte	.LVL2
- 430 00d9 E9020000 		.4byte	0x2e9
- 431 00dd E7000000 		.4byte	0xe7
- 432 00e1 09       		.uleb128 0x9
- 433 00e2 01       		.uleb128 0x1
- 434 00e3 50       		.byte	0x50
- 435 00e4 01       		.uleb128 0x1
- 436 00e5 31       		.byte	0x31
- 437 00e6 00       		.byte	0
- 438 00e7 08       		.uleb128 0x8
- 439 00e8 1A000000 		.4byte	.LVL3
- 440 00ec F4020000 		.4byte	0x2f4
- 441 00f0 FA000000 		.4byte	0xfa
- 442 00f4 09       		.uleb128 0x9
- 443 00f5 01       		.uleb128 0x1
- 444 00f6 50       		.byte	0x50
- 445 00f7 01       		.uleb128 0x1
- 446 00f8 30       		.byte	0x30
- 447 00f9 00       		.byte	0
- 448 00fa 08       		.uleb128 0x8
- 449 00fb 20000000 		.4byte	.LVL4
- 450 00ff FF020000 		.4byte	0x2ff
- 451 0103 0D010000 		.4byte	0x10d
- 452 0107 09       		.uleb128 0x9
- 453 0108 01       		.uleb128 0x1
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 10
+ 407 0046 02       		.byte	0x2
+ 408 0047 3F       		.byte	0x3f
+ 409 0048 4C000000 		.4byte	0x4c
+ 410 004c 02       		.uleb128 0x2
+ 411 004d 04       		.byte	0x4
+ 412 004e 05       		.byte	0x5
+ 413 004f 74020000 		.4byte	.LASF4
+ 414 0053 02       		.uleb128 0x2
+ 415 0054 04       		.byte	0x4
+ 416 0055 07       		.byte	0x7
+ 417 0056 70010000 		.4byte	.LASF5
+ 418 005a 02       		.uleb128 0x2
+ 419 005b 08       		.byte	0x8
+ 420 005c 05       		.byte	0x5
+ 421 005d 46020000 		.4byte	.LASF6
+ 422 0061 02       		.uleb128 0x2
+ 423 0062 08       		.byte	0x8
+ 424 0063 07       		.byte	0x7
+ 425 0064 FC010000 		.4byte	.LASF7
+ 426 0068 04       		.uleb128 0x4
+ 427 0069 04       		.byte	0x4
+ 428 006a 05       		.byte	0x5
+ 429 006b 696E7400 		.ascii	"int\000"
+ 430 006f 02       		.uleb128 0x2
+ 431 0070 04       		.byte	0x4
+ 432 0071 07       		.byte	0x7
+ 433 0072 E1010000 		.4byte	.LASF8
+ 434 0076 03       		.uleb128 0x3
+ 435 0077 35020000 		.4byte	.LASF10
+ 436 007b 03       		.byte	0x3
+ 437 007c 2C       		.byte	0x2c
+ 438 007d 41000000 		.4byte	0x41
+ 439 0081 05       		.uleb128 0x5
+ 440 0082 CE000000 		.4byte	.LASF11
+ 441 0086 04       		.byte	0x4
+ 442 0087 E901     		.2byte	0x1e9
+ 443 0089 2C000000 		.4byte	0x2c
+ 444 008d 02       		.uleb128 0x2
+ 445 008e 04       		.byte	0x4
+ 446 008f 04       		.byte	0x4
+ 447 0090 C0000000 		.4byte	.LASF12
+ 448 0094 02       		.uleb128 0x2
+ 449 0095 08       		.byte	0x8
+ 450 0096 04       		.byte	0x4
+ 451 0097 B7010000 		.4byte	.LASF13
+ 452 009b 02       		.uleb128 0x2
+ 453 009c 01       		.byte	0x1
+ 454 009d 08       		.byte	0x8
+ 455 009e 5B020000 		.4byte	.LASF14
+ 456 00a2 02       		.uleb128 0x2
+ 457 00a3 08       		.byte	0x8
+ 458 00a4 04       		.byte	0x4
+ 459 00a5 7D020000 		.4byte	.LASF15
+ 460 00a9 02       		.uleb128 0x2
+ 461 00aa 04       		.byte	0x4
+ 462 00ab 07       		.byte	0x7
+ 463 00ac 3D020000 		.4byte	.LASF16
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 11
 
 
- 454 0109 50       		.byte	0x50
- 455 010a 01       		.uleb128 0x1
- 456 010b 31       		.byte	0x31
- 457 010c 00       		.byte	0
- 458 010d 08       		.uleb128 0x8
- 459 010e 26000000 		.4byte	.LVL5
- 460 0112 0A030000 		.4byte	0x30a
- 461 0116 20010000 		.4byte	0x120
- 462 011a 09       		.uleb128 0x9
- 463 011b 01       		.uleb128 0x1
- 464 011c 50       		.byte	0x50
- 465 011d 01       		.uleb128 0x1
- 466 011e 30       		.byte	0x30
- 467 011f 00       		.byte	0
- 468 0120 08       		.uleb128 0x8
- 469 0121 2E000000 		.4byte	.LVL8
- 470 0125 E9020000 		.4byte	0x2e9
- 471 0129 33010000 		.4byte	0x133
- 472 012d 09       		.uleb128 0x9
- 473 012e 01       		.uleb128 0x1
- 474 012f 50       		.byte	0x50
- 475 0130 01       		.uleb128 0x1
- 476 0131 30       		.byte	0x30
- 477 0132 00       		.byte	0
- 478 0133 08       		.uleb128 0x8
- 479 0134 34000000 		.4byte	.LVL9
- 480 0138 F4020000 		.4byte	0x2f4
- 481 013c 46010000 		.4byte	0x146
- 482 0140 09       		.uleb128 0x9
- 483 0141 01       		.uleb128 0x1
- 484 0142 50       		.byte	0x50
- 485 0143 01       		.uleb128 0x1
- 486 0144 31       		.byte	0x31
- 487 0145 00       		.byte	0
- 488 0146 08       		.uleb128 0x8
- 489 0147 3A000000 		.4byte	.LVL10
- 490 014b FF020000 		.4byte	0x2ff
- 491 014f 59010000 		.4byte	0x159
- 492 0153 09       		.uleb128 0x9
- 493 0154 01       		.uleb128 0x1
- 494 0155 50       		.byte	0x50
- 495 0156 01       		.uleb128 0x1
- 496 0157 31       		.byte	0x31
- 497 0158 00       		.byte	0
- 498 0159 08       		.uleb128 0x8
- 499 015a 40000000 		.4byte	.LVL11
- 500 015e 0A030000 		.4byte	0x30a
- 501 0162 6C010000 		.4byte	0x16c
- 502 0166 09       		.uleb128 0x9
- 503 0167 01       		.uleb128 0x1
- 504 0168 50       		.byte	0x50
- 505 0169 01       		.uleb128 0x1
- 506 016a 30       		.byte	0x30
- 507 016b 00       		.byte	0
- 508 016c 08       		.uleb128 0x8
- 509 016d 48000000 		.4byte	.LVL14
- 510 0171 E9020000 		.4byte	0x2e9
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 11
+ 464 00b0 06       		.uleb128 0x6
+ 465 00b1 3A000000 		.4byte	.LASF17
+ 466 00b5 01       		.byte	0x1
+ 467 00b6 16       		.byte	0x16
+ 468 00b7 00000000 		.4byte	.LFB63
+ 469 00bb 76000000 		.4byte	.LFE63-.LFB63
+ 470 00bf 01       		.uleb128 0x1
+ 471 00c0 9C       		.byte	0x9c
+ 472 00c1 01020000 		.4byte	0x201
+ 473 00c5 07       		.uleb128 0x7
+ 474 00c6 99000000 		.4byte	.LASF18
+ 475 00ca 01       		.byte	0x1
+ 476 00cb 16       		.byte	0x16
+ 477 00cc 68000000 		.4byte	0x68
+ 478 00d0 00000000 		.4byte	.LLST0
+ 479 00d4 08       		.uleb128 0x8
+ 480 00d5 14000000 		.4byte	.LVL2
+ 481 00d9 41030000 		.4byte	0x341
+ 482 00dd E7000000 		.4byte	0xe7
+ 483 00e1 09       		.uleb128 0x9
+ 484 00e2 01       		.uleb128 0x1
+ 485 00e3 50       		.byte	0x50
+ 486 00e4 01       		.uleb128 0x1
+ 487 00e5 31       		.byte	0x31
+ 488 00e6 00       		.byte	0
+ 489 00e7 08       		.uleb128 0x8
+ 490 00e8 1A000000 		.4byte	.LVL3
+ 491 00ec 4C030000 		.4byte	0x34c
+ 492 00f0 FA000000 		.4byte	0xfa
+ 493 00f4 09       		.uleb128 0x9
+ 494 00f5 01       		.uleb128 0x1
+ 495 00f6 50       		.byte	0x50
+ 496 00f7 01       		.uleb128 0x1
+ 497 00f8 30       		.byte	0x30
+ 498 00f9 00       		.byte	0
+ 499 00fa 08       		.uleb128 0x8
+ 500 00fb 20000000 		.4byte	.LVL4
+ 501 00ff 57030000 		.4byte	0x357
+ 502 0103 0D010000 		.4byte	0x10d
+ 503 0107 09       		.uleb128 0x9
+ 504 0108 01       		.uleb128 0x1
+ 505 0109 50       		.byte	0x50
+ 506 010a 01       		.uleb128 0x1
+ 507 010b 31       		.byte	0x31
+ 508 010c 00       		.byte	0
+ 509 010d 08       		.uleb128 0x8
+ 510 010e 26000000 		.4byte	.LVL5
+ 511 0112 62030000 		.4byte	0x362
+ 512 0116 20010000 		.4byte	0x120
+ 513 011a 09       		.uleb128 0x9
+ 514 011b 01       		.uleb128 0x1
+ 515 011c 50       		.byte	0x50
+ 516 011d 01       		.uleb128 0x1
+ 517 011e 30       		.byte	0x30
+ 518 011f 00       		.byte	0
+ 519 0120 08       		.uleb128 0x8
+ 520 0121 2E000000 		.4byte	.LVL8
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 12
 
 
- 511 0175 7F010000 		.4byte	0x17f
- 512 0179 09       		.uleb128 0x9
- 513 017a 01       		.uleb128 0x1
- 514 017b 50       		.byte	0x50
- 515 017c 01       		.uleb128 0x1
- 516 017d 30       		.byte	0x30
- 517 017e 00       		.byte	0
- 518 017f 08       		.uleb128 0x8
- 519 0180 4E000000 		.4byte	.LVL15
- 520 0184 F4020000 		.4byte	0x2f4
- 521 0188 92010000 		.4byte	0x192
- 522 018c 09       		.uleb128 0x9
- 523 018d 01       		.uleb128 0x1
- 524 018e 50       		.byte	0x50
- 525 018f 01       		.uleb128 0x1
- 526 0190 31       		.byte	0x31
- 527 0191 00       		.byte	0
- 528 0192 08       		.uleb128 0x8
- 529 0193 54000000 		.4byte	.LVL16
- 530 0197 FF020000 		.4byte	0x2ff
- 531 019b A5010000 		.4byte	0x1a5
- 532 019f 09       		.uleb128 0x9
- 533 01a0 01       		.uleb128 0x1
- 534 01a1 50       		.byte	0x50
- 535 01a2 01       		.uleb128 0x1
- 536 01a3 30       		.byte	0x30
- 537 01a4 00       		.byte	0
- 538 01a5 08       		.uleb128 0x8
- 539 01a6 5A000000 		.4byte	.LVL17
- 540 01aa 0A030000 		.4byte	0x30a
- 541 01ae B8010000 		.4byte	0x1b8
- 542 01b2 09       		.uleb128 0x9
- 543 01b3 01       		.uleb128 0x1
- 544 01b4 50       		.byte	0x50
- 545 01b5 01       		.uleb128 0x1
- 546 01b6 31       		.byte	0x31
- 547 01b7 00       		.byte	0
- 548 01b8 08       		.uleb128 0x8
- 549 01b9 62000000 		.4byte	.LVL20
- 550 01bd E9020000 		.4byte	0x2e9
- 551 01c1 CB010000 		.4byte	0x1cb
- 552 01c5 09       		.uleb128 0x9
- 553 01c6 01       		.uleb128 0x1
- 554 01c7 50       		.byte	0x50
- 555 01c8 01       		.uleb128 0x1
- 556 01c9 31       		.byte	0x31
- 557 01ca 00       		.byte	0
- 558 01cb 08       		.uleb128 0x8
- 559 01cc 68000000 		.4byte	.LVL21
- 560 01d0 F4020000 		.4byte	0x2f4
- 561 01d4 DE010000 		.4byte	0x1de
- 562 01d8 09       		.uleb128 0x9
- 563 01d9 01       		.uleb128 0x1
- 564 01da 50       		.byte	0x50
- 565 01db 01       		.uleb128 0x1
- 566 01dc 30       		.byte	0x30
- 567 01dd 00       		.byte	0
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 12
+ 521 0125 41030000 		.4byte	0x341
+ 522 0129 33010000 		.4byte	0x133
+ 523 012d 09       		.uleb128 0x9
+ 524 012e 01       		.uleb128 0x1
+ 525 012f 50       		.byte	0x50
+ 526 0130 01       		.uleb128 0x1
+ 527 0131 30       		.byte	0x30
+ 528 0132 00       		.byte	0
+ 529 0133 08       		.uleb128 0x8
+ 530 0134 34000000 		.4byte	.LVL9
+ 531 0138 4C030000 		.4byte	0x34c
+ 532 013c 46010000 		.4byte	0x146
+ 533 0140 09       		.uleb128 0x9
+ 534 0141 01       		.uleb128 0x1
+ 535 0142 50       		.byte	0x50
+ 536 0143 01       		.uleb128 0x1
+ 537 0144 31       		.byte	0x31
+ 538 0145 00       		.byte	0
+ 539 0146 08       		.uleb128 0x8
+ 540 0147 3A000000 		.4byte	.LVL10
+ 541 014b 57030000 		.4byte	0x357
+ 542 014f 59010000 		.4byte	0x159
+ 543 0153 09       		.uleb128 0x9
+ 544 0154 01       		.uleb128 0x1
+ 545 0155 50       		.byte	0x50
+ 546 0156 01       		.uleb128 0x1
+ 547 0157 31       		.byte	0x31
+ 548 0158 00       		.byte	0
+ 549 0159 08       		.uleb128 0x8
+ 550 015a 40000000 		.4byte	.LVL11
+ 551 015e 62030000 		.4byte	0x362
+ 552 0162 6C010000 		.4byte	0x16c
+ 553 0166 09       		.uleb128 0x9
+ 554 0167 01       		.uleb128 0x1
+ 555 0168 50       		.byte	0x50
+ 556 0169 01       		.uleb128 0x1
+ 557 016a 30       		.byte	0x30
+ 558 016b 00       		.byte	0
+ 559 016c 08       		.uleb128 0x8
+ 560 016d 48000000 		.4byte	.LVL14
+ 561 0171 41030000 		.4byte	0x341
+ 562 0175 7F010000 		.4byte	0x17f
+ 563 0179 09       		.uleb128 0x9
+ 564 017a 01       		.uleb128 0x1
+ 565 017b 50       		.byte	0x50
+ 566 017c 01       		.uleb128 0x1
+ 567 017d 30       		.byte	0x30
+ 568 017e 00       		.byte	0
+ 569 017f 08       		.uleb128 0x8
+ 570 0180 4E000000 		.4byte	.LVL15
+ 571 0184 4C030000 		.4byte	0x34c
+ 572 0188 92010000 		.4byte	0x192
+ 573 018c 09       		.uleb128 0x9
+ 574 018d 01       		.uleb128 0x1
+ 575 018e 50       		.byte	0x50
+ 576 018f 01       		.uleb128 0x1
+ 577 0190 31       		.byte	0x31
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 13
 
 
- 568 01de 08       		.uleb128 0x8
- 569 01df 6E000000 		.4byte	.LVL22
- 570 01e3 FF020000 		.4byte	0x2ff
- 571 01e7 F1010000 		.4byte	0x1f1
- 572 01eb 09       		.uleb128 0x9
- 573 01ec 01       		.uleb128 0x1
- 574 01ed 50       		.byte	0x50
- 575 01ee 01       		.uleb128 0x1
- 576 01ef 30       		.byte	0x30
- 577 01f0 00       		.byte	0
- 578 01f1 0A       		.uleb128 0xa
- 579 01f2 74000000 		.4byte	.LVL23
- 580 01f6 0A030000 		.4byte	0x30a
- 581 01fa 09       		.uleb128 0x9
- 582 01fb 01       		.uleb128 0x1
- 583 01fc 50       		.byte	0x50
- 584 01fd 01       		.uleb128 0x1
- 585 01fe 31       		.byte	0x31
- 586 01ff 00       		.byte	0
- 587 0200 00       		.byte	0
- 588 0201 06       		.uleb128 0x6
- 589 0202 90000000 		.4byte	.LASF18
- 590 0206 01       		.byte	0x1
- 591 0207 23       		.byte	0x23
- 592 0208 00000000 		.4byte	.LFB64
- 593 020c 44000000 		.4byte	.LFE64-.LFB64
- 594 0210 01       		.uleb128 0x1
- 595 0211 9C       		.byte	0x9c
- 596 0212 56020000 		.4byte	0x256
- 597 0216 07       		.uleb128 0x7
- 598 0217 CA010000 		.4byte	.LASF20
- 599 021b 01       		.byte	0x1
- 600 021c 23       		.byte	0x23
- 601 021d 68000000 		.4byte	0x68
- 602 0221 6C000000 		.4byte	.LLST1
- 603 0225 0B       		.uleb128 0xb
- 604 0226 99010000 		.4byte	.LASF21
- 605 022a 01       		.byte	0x1
- 606 022b 24       		.byte	0x24
- 607 022c 68000000 		.4byte	0x68
- 608 0230 98000000 		.4byte	.LLST2
- 609 0234 0B       		.uleb128 0xb
- 610 0235 B9000000 		.4byte	.LASF22
- 611 0239 01       		.byte	0x1
- 612 023a 25       		.byte	0x25
- 613 023b 68000000 		.4byte	0x68
- 614 023f B6000000 		.4byte	.LLST3
- 615 0243 0C       		.uleb128 0xc
- 616 0244 0E000000 		.4byte	.LVL27
- 617 0248 15030000 		.4byte	0x315
- 618 024c 0C       		.uleb128 0xc
- 619 024d 32000000 		.4byte	.LVL29
- 620 0251 B0000000 		.4byte	0xb0
- 621 0255 00       		.byte	0
- 622 0256 0D       		.uleb128 0xd
- 623 0257 8E010000 		.4byte	.LASF23
- 624 025b 01       		.byte	0x1
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 13
+ 578 0191 00       		.byte	0
+ 579 0192 08       		.uleb128 0x8
+ 580 0193 54000000 		.4byte	.LVL16
+ 581 0197 57030000 		.4byte	0x357
+ 582 019b A5010000 		.4byte	0x1a5
+ 583 019f 09       		.uleb128 0x9
+ 584 01a0 01       		.uleb128 0x1
+ 585 01a1 50       		.byte	0x50
+ 586 01a2 01       		.uleb128 0x1
+ 587 01a3 30       		.byte	0x30
+ 588 01a4 00       		.byte	0
+ 589 01a5 08       		.uleb128 0x8
+ 590 01a6 5A000000 		.4byte	.LVL17
+ 591 01aa 62030000 		.4byte	0x362
+ 592 01ae B8010000 		.4byte	0x1b8
+ 593 01b2 09       		.uleb128 0x9
+ 594 01b3 01       		.uleb128 0x1
+ 595 01b4 50       		.byte	0x50
+ 596 01b5 01       		.uleb128 0x1
+ 597 01b6 31       		.byte	0x31
+ 598 01b7 00       		.byte	0
+ 599 01b8 08       		.uleb128 0x8
+ 600 01b9 62000000 		.4byte	.LVL20
+ 601 01bd 41030000 		.4byte	0x341
+ 602 01c1 CB010000 		.4byte	0x1cb
+ 603 01c5 09       		.uleb128 0x9
+ 604 01c6 01       		.uleb128 0x1
+ 605 01c7 50       		.byte	0x50
+ 606 01c8 01       		.uleb128 0x1
+ 607 01c9 31       		.byte	0x31
+ 608 01ca 00       		.byte	0
+ 609 01cb 08       		.uleb128 0x8
+ 610 01cc 68000000 		.4byte	.LVL21
+ 611 01d0 4C030000 		.4byte	0x34c
+ 612 01d4 DE010000 		.4byte	0x1de
+ 613 01d8 09       		.uleb128 0x9
+ 614 01d9 01       		.uleb128 0x1
+ 615 01da 50       		.byte	0x50
+ 616 01db 01       		.uleb128 0x1
+ 617 01dc 30       		.byte	0x30
+ 618 01dd 00       		.byte	0
+ 619 01de 08       		.uleb128 0x8
+ 620 01df 6E000000 		.4byte	.LVL22
+ 621 01e3 57030000 		.4byte	0x357
+ 622 01e7 F1010000 		.4byte	0x1f1
+ 623 01eb 09       		.uleb128 0x9
+ 624 01ec 01       		.uleb128 0x1
+ 625 01ed 50       		.byte	0x50
+ 626 01ee 01       		.uleb128 0x1
+ 627 01ef 30       		.byte	0x30
+ 628 01f0 00       		.byte	0
+ 629 01f1 0A       		.uleb128 0xa
+ 630 01f2 74000000 		.4byte	.LVL23
+ 631 01f6 62030000 		.4byte	0x362
+ 632 01fa 09       		.uleb128 0x9
+ 633 01fb 01       		.uleb128 0x1
+ 634 01fc 50       		.byte	0x50
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 14
 
 
- 625 025c 32       		.byte	0x32
- 626 025d 00000000 		.4byte	.LFB65
- 627 0261 38000000 		.4byte	.LFE65-.LFB65
- 628 0265 01       		.uleb128 0x1
- 629 0266 9C       		.byte	0x9c
- 630 0267 84020000 		.4byte	0x284
- 631 026b 07       		.uleb128 0x7
- 632 026c F9010000 		.4byte	.LASF24
- 633 0270 01       		.byte	0x1
- 634 0271 32       		.byte	0x32
- 635 0272 68000000 		.4byte	0x68
- 636 0276 EC000000 		.4byte	.LLST4
- 637 027a 0C       		.uleb128 0xc
- 638 027b 2C000000 		.4byte	.LVL39
- 639 027f 01020000 		.4byte	0x201
- 640 0283 00       		.byte	0
- 641 0284 0E       		.uleb128 0xe
- 642 0285 AB010000 		.4byte	.LASF37
- 643 0289 01       		.byte	0x1
- 644 028a 36       		.byte	0x36
- 645 028b 68000000 		.4byte	0x68
- 646 028f 00000000 		.4byte	.LFB66
- 647 0293 10000000 		.4byte	.LFE66-.LFB66
- 648 0297 01       		.uleb128 0x1
- 649 0298 9C       		.byte	0x9c
- 650 0299 B6020000 		.4byte	0x2b6
- 651 029d 0C       		.uleb128 0xc
- 652 029e 08000000 		.4byte	.LVL41
- 653 02a2 20030000 		.4byte	0x320
- 654 02a6 0A       		.uleb128 0xa
- 655 02a7 0E000000 		.4byte	.LVL42
- 656 02ab 56020000 		.4byte	0x256
- 657 02af 09       		.uleb128 0x9
- 658 02b0 01       		.uleb128 0x1
- 659 02b1 50       		.byte	0x50
- 660 02b2 01       		.uleb128 0x1
- 661 02b3 31       		.byte	0x31
- 662 02b4 00       		.byte	0
- 663 02b5 00       		.byte	0
- 664 02b6 0F       		.uleb128 0xf
- 665 02b7 B0010000 		.4byte	.LASF25
- 666 02bb 05       		.byte	0x5
- 667 02bc 1207     		.2byte	0x712
- 668 02be C2020000 		.4byte	0x2c2
- 669 02c2 10       		.uleb128 0x10
- 670 02c3 76000000 		.4byte	0x76
- 671 02c7 11       		.uleb128 0x11
- 672 02c8 A8000000 		.4byte	.LASF26
- 673 02cc 01       		.byte	0x1
- 674 02cd 03       		.byte	0x3
- 675 02ce 94000000 		.4byte	0x94
- 676 02d2 05       		.uleb128 0x5
- 677 02d3 03       		.byte	0x3
- 678 02d4 00000000 		.4byte	STEP_ANGLE
- 679 02d8 11       		.uleb128 0x11
- 680 02d9 A1000000 		.4byte	.LASF27
- 681 02dd 01       		.byte	0x1
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 14
+ 635 01fd 01       		.uleb128 0x1
+ 636 01fe 31       		.byte	0x31
+ 637 01ff 00       		.byte	0
+ 638 0200 00       		.byte	0
+ 639 0201 06       		.uleb128 0x6
+ 640 0202 99000000 		.4byte	.LASF18
+ 641 0206 01       		.byte	0x1
+ 642 0207 39       		.byte	0x39
+ 643 0208 00000000 		.4byte	.LFB64
+ 644 020c 3C000000 		.4byte	.LFE64-.LFB64
+ 645 0210 01       		.uleb128 0x1
+ 646 0211 9C       		.byte	0x9c
+ 647 0212 56020000 		.4byte	0x256
+ 648 0216 07       		.uleb128 0x7
+ 649 0217 EE010000 		.4byte	.LASF19
+ 650 021b 01       		.byte	0x1
+ 651 021c 39       		.byte	0x39
+ 652 021d 68000000 		.4byte	0x68
+ 653 0221 6C000000 		.4byte	.LLST1
+ 654 0225 0B       		.uleb128 0xb
+ 655 0226 AC010000 		.4byte	.LASF20
+ 656 022a 01       		.byte	0x1
+ 657 022b 3A       		.byte	0x3a
+ 658 022c 68000000 		.4byte	0x68
+ 659 0230 98000000 		.4byte	.LLST2
+ 660 0234 0B       		.uleb128 0xb
+ 661 0235 C6000000 		.4byte	.LASF21
+ 662 0239 01       		.byte	0x1
+ 663 023a 3B       		.byte	0x3b
+ 664 023b 68000000 		.4byte	0x68
+ 665 023f B6000000 		.4byte	.LLST3
+ 666 0243 0C       		.uleb128 0xc
+ 667 0244 0E000000 		.4byte	.LVL27
+ 668 0248 6D030000 		.4byte	0x36d
+ 669 024c 0C       		.uleb128 0xc
+ 670 024d 2E000000 		.4byte	.LVL29
+ 671 0251 B0000000 		.4byte	0xb0
+ 672 0255 00       		.byte	0
+ 673 0256 0D       		.uleb128 0xd
+ 674 0257 A1010000 		.4byte	.LASF22
+ 675 025b 01       		.byte	0x1
+ 676 025c 4C       		.byte	0x4c
+ 677 025d 00000000 		.4byte	.LFB65
+ 678 0261 1C000000 		.4byte	.LFE65-.LFB65
+ 679 0265 01       		.uleb128 0x1
+ 680 0266 9C       		.byte	0x9c
+ 681 0267 84020000 		.4byte	0x284
+ 682 026b 07       		.uleb128 0x7
+ 683 026c 1C020000 		.4byte	.LASF23
+ 684 0270 01       		.byte	0x1
+ 685 0271 4C       		.byte	0x4c
+ 686 0272 68000000 		.4byte	0x68
+ 687 0276 EC000000 		.4byte	.LLST4
+ 688 027a 0C       		.uleb128 0xc
+ 689 027b 16000000 		.4byte	.LVL37
+ 690 027f 01020000 		.4byte	0x201
+ 691 0283 00       		.byte	0
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 15
 
 
- 682 02de 04       		.byte	0x4
- 683 02df 68000000 		.4byte	0x68
- 684 02e3 05       		.uleb128 0x5
- 685 02e4 03       		.byte	0x3
- 686 02e5 00000000 		.4byte	PERIOD
- 687 02e9 12       		.uleb128 0x12
- 688 02ea 5F020000 		.4byte	.LASF28
- 689 02ee 5F020000 		.4byte	.LASF28
- 690 02f2 06       		.byte	0x6
- 691 02f3 26       		.byte	0x26
- 692 02f4 12       		.uleb128 0x12
- 693 02f5 25000000 		.4byte	.LASF29
- 694 02f9 25000000 		.4byte	.LASF29
- 695 02fd 07       		.byte	0x7
- 696 02fe 26       		.byte	0x26
- 697 02ff 12       		.uleb128 0x12
- 698 0300 82010000 		.4byte	.LASF30
- 699 0304 82010000 		.4byte	.LASF30
- 700 0308 08       		.byte	0x8
- 701 0309 26       		.byte	0x26
- 702 030a 12       		.uleb128 0x12
- 703 030b 95000000 		.4byte	.LASF31
- 704 030f 95000000 		.4byte	.LASF31
- 705 0313 09       		.byte	0x9
- 706 0314 26       		.byte	0x26
- 707 0315 12       		.uleb128 0x12
- 708 0316 00000000 		.4byte	.LASF32
- 709 031a 00000000 		.4byte	.LASF32
- 710 031e 0A       		.byte	0xa
- 711 031f 5E       		.byte	0x5e
- 712 0320 12       		.uleb128 0x12
- 713 0321 6B020000 		.4byte	.LASF33
- 714 0325 6B020000 		.4byte	.LASF33
- 715 0329 0A       		.byte	0xa
- 716 032a 5A       		.byte	0x5a
- 717 032b 00       		.byte	0
- 718              		.section	.debug_abbrev,"",%progbits
- 719              	.Ldebug_abbrev0:
- 720 0000 01       		.uleb128 0x1
- 721 0001 11       		.uleb128 0x11
- 722 0002 01       		.byte	0x1
- 723 0003 25       		.uleb128 0x25
- 724 0004 0E       		.uleb128 0xe
- 725 0005 13       		.uleb128 0x13
- 726 0006 0B       		.uleb128 0xb
- 727 0007 03       		.uleb128 0x3
- 728 0008 0E       		.uleb128 0xe
- 729 0009 1B       		.uleb128 0x1b
- 730 000a 0E       		.uleb128 0xe
- 731 000b 55       		.uleb128 0x55
- 732 000c 17       		.uleb128 0x17
- 733 000d 11       		.uleb128 0x11
- 734 000e 01       		.uleb128 0x1
- 735 000f 10       		.uleb128 0x10
- 736 0010 17       		.uleb128 0x17
- 737 0011 00       		.byte	0
- 738 0012 00       		.byte	0
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 15
+ 692 0284 0E       		.uleb128 0xe
+ 693 0285 9E000000 		.4byte	.LASF40
+ 694 0289 01       		.byte	0x1
+ 695 028a 53       		.byte	0x53
+ 696 028b 00000000 		.4byte	.LFB66
+ 697 028f 3C000000 		.4byte	.LFE66-.LFB66
+ 698 0293 01       		.uleb128 0x1
+ 699 0294 9C       		.byte	0x9c
+ 700 0295 B4020000 		.4byte	0x2b4
+ 701 0299 0C       		.uleb128 0xc
+ 702 029a 2E000000 		.4byte	.LVL38
+ 703 029e 78030000 		.4byte	0x378
+ 704 02a2 0A       		.uleb128 0xa
+ 705 02a3 36000000 		.4byte	.LVL39
+ 706 02a7 83030000 		.4byte	0x383
+ 707 02ab 09       		.uleb128 0x9
+ 708 02ac 01       		.uleb128 0x1
+ 709 02ad 50       		.byte	0x50
+ 710 02ae 03       		.uleb128 0x3
+ 711 02af 0A       		.byte	0xa
+ 712 02b0 F401     		.2byte	0x1f4
+ 713 02b2 00       		.byte	0
+ 714 02b3 00       		.byte	0
+ 715 02b4 0F       		.uleb128 0xf
+ 716 02b5 CF010000 		.4byte	.LASF41
+ 717 02b9 01       		.byte	0x1
+ 718 02ba 5D       		.byte	0x5d
+ 719 02bb 68000000 		.4byte	0x68
+ 720 02bf 00000000 		.4byte	.LFB67
+ 721 02c3 2E000000 		.4byte	.LFE67-.LFB67
+ 722 02c7 01       		.uleb128 0x1
+ 723 02c8 9C       		.byte	0x9c
+ 724 02c9 1F030000 		.4byte	0x31f
+ 725 02cd 0C       		.uleb128 0xc
+ 726 02ce 08000000 		.4byte	.LVL40
+ 727 02d2 8E030000 		.4byte	0x38e
+ 728 02d6 0C       		.uleb128 0xc
+ 729 02d7 0C000000 		.4byte	.LVL41
+ 730 02db 99030000 		.4byte	0x399
+ 731 02df 08       		.uleb128 0x8
+ 732 02e0 14000000 		.4byte	.LVL42
+ 733 02e4 78030000 		.4byte	0x378
+ 734 02e8 F4020000 		.4byte	0x2f4
+ 735 02ec 09       		.uleb128 0x9
+ 736 02ed 01       		.uleb128 0x1
+ 737 02ee 50       		.byte	0x50
+ 738 02ef 03       		.uleb128 0x3
+ 739 02f0 0A       		.byte	0xa
+ 740 02f1 0807     		.2byte	0x708
+ 741 02f3 00       		.byte	0
+ 742 02f4 0C       		.uleb128 0xc
+ 743 02f5 18000000 		.4byte	.LVL43
+ 744 02f9 A4030000 		.4byte	0x3a4
+ 745 02fd 0C       		.uleb128 0xc
+ 746 02fe 1E000000 		.4byte	.LVL44
+ 747 0302 84020000 		.4byte	0x284
+ 748 0306 0C       		.uleb128 0xc
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 16
 
 
- 739 0013 02       		.uleb128 0x2
- 740 0014 24       		.uleb128 0x24
- 741 0015 00       		.byte	0
- 742 0016 0B       		.uleb128 0xb
- 743 0017 0B       		.uleb128 0xb
- 744 0018 3E       		.uleb128 0x3e
- 745 0019 0B       		.uleb128 0xb
- 746 001a 03       		.uleb128 0x3
- 747 001b 0E       		.uleb128 0xe
- 748 001c 00       		.byte	0
- 749 001d 00       		.byte	0
- 750 001e 03       		.uleb128 0x3
- 751 001f 16       		.uleb128 0x16
- 752 0020 00       		.byte	0
- 753 0021 03       		.uleb128 0x3
- 754 0022 0E       		.uleb128 0xe
- 755 0023 3A       		.uleb128 0x3a
- 756 0024 0B       		.uleb128 0xb
- 757 0025 3B       		.uleb128 0x3b
- 758 0026 0B       		.uleb128 0xb
- 759 0027 49       		.uleb128 0x49
- 760 0028 13       		.uleb128 0x13
- 761 0029 00       		.byte	0
- 762 002a 00       		.byte	0
- 763 002b 04       		.uleb128 0x4
- 764 002c 24       		.uleb128 0x24
- 765 002d 00       		.byte	0
- 766 002e 0B       		.uleb128 0xb
- 767 002f 0B       		.uleb128 0xb
- 768 0030 3E       		.uleb128 0x3e
- 769 0031 0B       		.uleb128 0xb
- 770 0032 03       		.uleb128 0x3
- 771 0033 08       		.uleb128 0x8
- 772 0034 00       		.byte	0
- 773 0035 00       		.byte	0
- 774 0036 05       		.uleb128 0x5
- 775 0037 16       		.uleb128 0x16
- 776 0038 00       		.byte	0
- 777 0039 03       		.uleb128 0x3
- 778 003a 0E       		.uleb128 0xe
- 779 003b 3A       		.uleb128 0x3a
- 780 003c 0B       		.uleb128 0xb
- 781 003d 3B       		.uleb128 0x3b
- 782 003e 05       		.uleb128 0x5
- 783 003f 49       		.uleb128 0x49
- 784 0040 13       		.uleb128 0x13
- 785 0041 00       		.byte	0
- 786 0042 00       		.byte	0
- 787 0043 06       		.uleb128 0x6
- 788 0044 2E       		.uleb128 0x2e
- 789 0045 01       		.byte	0x1
- 790 0046 3F       		.uleb128 0x3f
- 791 0047 19       		.uleb128 0x19
- 792 0048 03       		.uleb128 0x3
- 793 0049 0E       		.uleb128 0xe
- 794 004a 3A       		.uleb128 0x3a
- 795 004b 0B       		.uleb128 0xb
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 16
+ 749 0307 22000000 		.4byte	.LVL45
+ 750 030b AF030000 		.4byte	0x3af
+ 751 030f 0A       		.uleb128 0xa
+ 752 0310 2C000000 		.4byte	.LVL46
+ 753 0314 56020000 		.4byte	0x256
+ 754 0318 09       		.uleb128 0x9
+ 755 0319 01       		.uleb128 0x1
+ 756 031a 50       		.byte	0x50
+ 757 031b 01       		.uleb128 0x1
+ 758 031c 31       		.byte	0x31
+ 759 031d 00       		.byte	0
+ 760 031e 00       		.byte	0
+ 761 031f 10       		.uleb128 0x10
+ 762 0320 D4010000 		.4byte	.LASF24
+ 763 0324 05       		.byte	0x5
+ 764 0325 1207     		.2byte	0x712
+ 765 0327 2B030000 		.4byte	0x32b
+ 766 032b 11       		.uleb128 0x11
+ 767 032c 76000000 		.4byte	0x76
+ 768 0330 12       		.uleb128 0x12
+ 769 0331 26020000 		.4byte	.LASF25
+ 770 0335 01       		.byte	0x1
+ 771 0336 08       		.byte	0x8
+ 772 0337 68000000 		.4byte	0x68
+ 773 033b 05       		.uleb128 0x5
+ 774 033c 03       		.byte	0x3
+ 775 033d 00000000 		.4byte	servo_position
+ 776 0341 13       		.uleb128 0x13
+ 777 0342 95020000 		.4byte	.LASF26
+ 778 0346 95020000 		.4byte	.LASF26
+ 779 034a 06       		.byte	0x6
+ 780 034b 26       		.byte	0x26
+ 781 034c 13       		.uleb128 0x13
+ 782 034d 2E000000 		.4byte	.LASF27
+ 783 0351 2E000000 		.4byte	.LASF27
+ 784 0355 07       		.byte	0x7
+ 785 0356 26       		.byte	0x26
+ 786 0357 13       		.uleb128 0x13
+ 787 0358 95010000 		.4byte	.LASF28
+ 788 035c 95010000 		.4byte	.LASF28
+ 789 0360 08       		.byte	0x8
+ 790 0361 26       		.byte	0x26
+ 791 0362 13       		.uleb128 0x13
+ 792 0363 B4000000 		.4byte	.LASF29
+ 793 0367 B4000000 		.4byte	.LASF29
+ 794 036b 09       		.byte	0x9
+ 795 036c 26       		.byte	0x26
+ 796 036d 13       		.uleb128 0x13
+ 797 036e 00000000 		.4byte	.LASF30
+ 798 0372 00000000 		.4byte	.LASF30
+ 799 0376 0A       		.byte	0xa
+ 800 0377 5E       		.byte	0x5e
+ 801 0378 13       		.uleb128 0x13
+ 802 0379 BE010000 		.4byte	.LASF31
+ 803 037d BE010000 		.4byte	.LASF31
+ 804 0381 0B       		.byte	0xb
+ 805 0382 C3       		.byte	0xc3
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 17
 
 
- 796 004c 3B       		.uleb128 0x3b
- 797 004d 0B       		.uleb128 0xb
- 798 004e 27       		.uleb128 0x27
- 799 004f 19       		.uleb128 0x19
- 800 0050 11       		.uleb128 0x11
- 801 0051 01       		.uleb128 0x1
- 802 0052 12       		.uleb128 0x12
- 803 0053 06       		.uleb128 0x6
- 804 0054 40       		.uleb128 0x40
- 805 0055 18       		.uleb128 0x18
- 806 0056 9742     		.uleb128 0x2117
- 807 0058 19       		.uleb128 0x19
- 808 0059 01       		.uleb128 0x1
- 809 005a 13       		.uleb128 0x13
- 810 005b 00       		.byte	0
- 811 005c 00       		.byte	0
- 812 005d 07       		.uleb128 0x7
- 813 005e 05       		.uleb128 0x5
- 814 005f 00       		.byte	0
- 815 0060 03       		.uleb128 0x3
- 816 0061 0E       		.uleb128 0xe
- 817 0062 3A       		.uleb128 0x3a
- 818 0063 0B       		.uleb128 0xb
- 819 0064 3B       		.uleb128 0x3b
- 820 0065 0B       		.uleb128 0xb
- 821 0066 49       		.uleb128 0x49
- 822 0067 13       		.uleb128 0x13
- 823 0068 02       		.uleb128 0x2
- 824 0069 17       		.uleb128 0x17
- 825 006a 00       		.byte	0
- 826 006b 00       		.byte	0
- 827 006c 08       		.uleb128 0x8
- 828 006d 898201   		.uleb128 0x4109
- 829 0070 01       		.byte	0x1
- 830 0071 11       		.uleb128 0x11
- 831 0072 01       		.uleb128 0x1
- 832 0073 31       		.uleb128 0x31
- 833 0074 13       		.uleb128 0x13
- 834 0075 01       		.uleb128 0x1
- 835 0076 13       		.uleb128 0x13
- 836 0077 00       		.byte	0
- 837 0078 00       		.byte	0
- 838 0079 09       		.uleb128 0x9
- 839 007a 8A8201   		.uleb128 0x410a
- 840 007d 00       		.byte	0
- 841 007e 02       		.uleb128 0x2
- 842 007f 18       		.uleb128 0x18
- 843 0080 9142     		.uleb128 0x2111
- 844 0082 18       		.uleb128 0x18
- 845 0083 00       		.byte	0
- 846 0084 00       		.byte	0
- 847 0085 0A       		.uleb128 0xa
- 848 0086 898201   		.uleb128 0x4109
- 849 0089 01       		.byte	0x1
- 850 008a 11       		.uleb128 0x11
- 851 008b 01       		.uleb128 0x1
- 852 008c 31       		.uleb128 0x31
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 17
+ 806 0383 13       		.uleb128 0x13
+ 807 0384 B9020000 		.4byte	.LASF32
+ 808 0388 B9020000 		.4byte	.LASF32
+ 809 038c 0C       		.byte	0xc
+ 810 038d 76       		.byte	0x76
+ 811 038e 13       		.uleb128 0x13
+ 812 038f A1020000 		.4byte	.LASF33
+ 813 0393 A1020000 		.4byte	.LASF33
+ 814 0397 0A       		.byte	0xa
+ 815 0398 5A       		.byte	0x5a
+ 816 0399 13       		.uleb128 0x13
+ 817 039a 6A020000 		.4byte	.LASF34
+ 818 039e 6A020000 		.4byte	.LASF34
+ 819 03a2 0B       		.byte	0xb
+ 820 03a3 92       		.byte	0x92
+ 821 03a4 13       		.uleb128 0x13
+ 822 03a5 13020000 		.4byte	.LASF35
+ 823 03a9 13020000 		.4byte	.LASF35
+ 824 03ad 0D       		.byte	0xd
+ 825 03ae 29       		.byte	0x29
+ 826 03af 13       		.uleb128 0x13
+ 827 03b0 25000000 		.4byte	.LASF36
+ 828 03b4 25000000 		.4byte	.LASF36
+ 829 03b8 0E       		.byte	0xe
+ 830 03b9 29       		.byte	0x29
+ 831 03ba 00       		.byte	0
+ 832              		.section	.debug_abbrev,"",%progbits
+ 833              	.Ldebug_abbrev0:
+ 834 0000 01       		.uleb128 0x1
+ 835 0001 11       		.uleb128 0x11
+ 836 0002 01       		.byte	0x1
+ 837 0003 25       		.uleb128 0x25
+ 838 0004 0E       		.uleb128 0xe
+ 839 0005 13       		.uleb128 0x13
+ 840 0006 0B       		.uleb128 0xb
+ 841 0007 03       		.uleb128 0x3
+ 842 0008 0E       		.uleb128 0xe
+ 843 0009 1B       		.uleb128 0x1b
+ 844 000a 0E       		.uleb128 0xe
+ 845 000b 55       		.uleb128 0x55
+ 846 000c 17       		.uleb128 0x17
+ 847 000d 11       		.uleb128 0x11
+ 848 000e 01       		.uleb128 0x1
+ 849 000f 10       		.uleb128 0x10
+ 850 0010 17       		.uleb128 0x17
+ 851 0011 00       		.byte	0
+ 852 0012 00       		.byte	0
+ 853 0013 02       		.uleb128 0x2
+ 854 0014 24       		.uleb128 0x24
+ 855 0015 00       		.byte	0
+ 856 0016 0B       		.uleb128 0xb
+ 857 0017 0B       		.uleb128 0xb
+ 858 0018 3E       		.uleb128 0x3e
+ 859 0019 0B       		.uleb128 0xb
+ 860 001a 03       		.uleb128 0x3
+ 861 001b 0E       		.uleb128 0xe
+ 862 001c 00       		.byte	0
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 18
 
 
- 853 008d 13       		.uleb128 0x13
- 854 008e 00       		.byte	0
- 855 008f 00       		.byte	0
- 856 0090 0B       		.uleb128 0xb
- 857 0091 34       		.uleb128 0x34
- 858 0092 00       		.byte	0
- 859 0093 03       		.uleb128 0x3
- 860 0094 0E       		.uleb128 0xe
- 861 0095 3A       		.uleb128 0x3a
- 862 0096 0B       		.uleb128 0xb
- 863 0097 3B       		.uleb128 0x3b
- 864 0098 0B       		.uleb128 0xb
- 865 0099 49       		.uleb128 0x49
- 866 009a 13       		.uleb128 0x13
- 867 009b 02       		.uleb128 0x2
- 868 009c 17       		.uleb128 0x17
- 869 009d 00       		.byte	0
- 870 009e 00       		.byte	0
- 871 009f 0C       		.uleb128 0xc
- 872 00a0 898201   		.uleb128 0x4109
- 873 00a3 00       		.byte	0
- 874 00a4 11       		.uleb128 0x11
- 875 00a5 01       		.uleb128 0x1
- 876 00a6 31       		.uleb128 0x31
- 877 00a7 13       		.uleb128 0x13
- 878 00a8 00       		.byte	0
- 879 00a9 00       		.byte	0
- 880 00aa 0D       		.uleb128 0xd
- 881 00ab 2E       		.uleb128 0x2e
- 882 00ac 01       		.byte	0x1
- 883 00ad 3F       		.uleb128 0x3f
- 884 00ae 19       		.uleb128 0x19
- 885 00af 03       		.uleb128 0x3
- 886 00b0 0E       		.uleb128 0xe
- 887 00b1 3A       		.uleb128 0x3a
- 888 00b2 0B       		.uleb128 0xb
- 889 00b3 3B       		.uleb128 0x3b
- 890 00b4 0B       		.uleb128 0xb
- 891 00b5 27       		.uleb128 0x27
- 892 00b6 19       		.uleb128 0x19
- 893 00b7 11       		.uleb128 0x11
- 894 00b8 01       		.uleb128 0x1
- 895 00b9 12       		.uleb128 0x12
- 896 00ba 06       		.uleb128 0x6
- 897 00bb 40       		.uleb128 0x40
- 898 00bc 18       		.uleb128 0x18
- 899 00bd 9642     		.uleb128 0x2116
- 900 00bf 19       		.uleb128 0x19
- 901 00c0 01       		.uleb128 0x1
- 902 00c1 13       		.uleb128 0x13
- 903 00c2 00       		.byte	0
- 904 00c3 00       		.byte	0
- 905 00c4 0E       		.uleb128 0xe
- 906 00c5 2E       		.uleb128 0x2e
- 907 00c6 01       		.byte	0x1
- 908 00c7 3F       		.uleb128 0x3f
- 909 00c8 19       		.uleb128 0x19
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 18
+ 863 001d 00       		.byte	0
+ 864 001e 03       		.uleb128 0x3
+ 865 001f 16       		.uleb128 0x16
+ 866 0020 00       		.byte	0
+ 867 0021 03       		.uleb128 0x3
+ 868 0022 0E       		.uleb128 0xe
+ 869 0023 3A       		.uleb128 0x3a
+ 870 0024 0B       		.uleb128 0xb
+ 871 0025 3B       		.uleb128 0x3b
+ 872 0026 0B       		.uleb128 0xb
+ 873 0027 49       		.uleb128 0x49
+ 874 0028 13       		.uleb128 0x13
+ 875 0029 00       		.byte	0
+ 876 002a 00       		.byte	0
+ 877 002b 04       		.uleb128 0x4
+ 878 002c 24       		.uleb128 0x24
+ 879 002d 00       		.byte	0
+ 880 002e 0B       		.uleb128 0xb
+ 881 002f 0B       		.uleb128 0xb
+ 882 0030 3E       		.uleb128 0x3e
+ 883 0031 0B       		.uleb128 0xb
+ 884 0032 03       		.uleb128 0x3
+ 885 0033 08       		.uleb128 0x8
+ 886 0034 00       		.byte	0
+ 887 0035 00       		.byte	0
+ 888 0036 05       		.uleb128 0x5
+ 889 0037 16       		.uleb128 0x16
+ 890 0038 00       		.byte	0
+ 891 0039 03       		.uleb128 0x3
+ 892 003a 0E       		.uleb128 0xe
+ 893 003b 3A       		.uleb128 0x3a
+ 894 003c 0B       		.uleb128 0xb
+ 895 003d 3B       		.uleb128 0x3b
+ 896 003e 05       		.uleb128 0x5
+ 897 003f 49       		.uleb128 0x49
+ 898 0040 13       		.uleb128 0x13
+ 899 0041 00       		.byte	0
+ 900 0042 00       		.byte	0
+ 901 0043 06       		.uleb128 0x6
+ 902 0044 2E       		.uleb128 0x2e
+ 903 0045 01       		.byte	0x1
+ 904 0046 3F       		.uleb128 0x3f
+ 905 0047 19       		.uleb128 0x19
+ 906 0048 03       		.uleb128 0x3
+ 907 0049 0E       		.uleb128 0xe
+ 908 004a 3A       		.uleb128 0x3a
+ 909 004b 0B       		.uleb128 0xb
+ 910 004c 3B       		.uleb128 0x3b
+ 911 004d 0B       		.uleb128 0xb
+ 912 004e 27       		.uleb128 0x27
+ 913 004f 19       		.uleb128 0x19
+ 914 0050 11       		.uleb128 0x11
+ 915 0051 01       		.uleb128 0x1
+ 916 0052 12       		.uleb128 0x12
+ 917 0053 06       		.uleb128 0x6
+ 918 0054 40       		.uleb128 0x40
+ 919 0055 18       		.uleb128 0x18
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 19
 
 
- 910 00c9 03       		.uleb128 0x3
- 911 00ca 0E       		.uleb128 0xe
- 912 00cb 3A       		.uleb128 0x3a
- 913 00cc 0B       		.uleb128 0xb
- 914 00cd 3B       		.uleb128 0x3b
- 915 00ce 0B       		.uleb128 0xb
- 916 00cf 27       		.uleb128 0x27
- 917 00d0 19       		.uleb128 0x19
- 918 00d1 49       		.uleb128 0x49
- 919 00d2 13       		.uleb128 0x13
- 920 00d3 8701     		.uleb128 0x87
- 921 00d5 19       		.uleb128 0x19
- 922 00d6 11       		.uleb128 0x11
- 923 00d7 01       		.uleb128 0x1
- 924 00d8 12       		.uleb128 0x12
- 925 00d9 06       		.uleb128 0x6
- 926 00da 40       		.uleb128 0x40
- 927 00db 18       		.uleb128 0x18
- 928 00dc 9742     		.uleb128 0x2117
- 929 00de 19       		.uleb128 0x19
- 930 00df 01       		.uleb128 0x1
- 931 00e0 13       		.uleb128 0x13
- 932 00e1 00       		.byte	0
- 933 00e2 00       		.byte	0
- 934 00e3 0F       		.uleb128 0xf
- 935 00e4 34       		.uleb128 0x34
- 936 00e5 00       		.byte	0
- 937 00e6 03       		.uleb128 0x3
- 938 00e7 0E       		.uleb128 0xe
- 939 00e8 3A       		.uleb128 0x3a
- 940 00e9 0B       		.uleb128 0xb
- 941 00ea 3B       		.uleb128 0x3b
- 942 00eb 05       		.uleb128 0x5
- 943 00ec 49       		.uleb128 0x49
- 944 00ed 13       		.uleb128 0x13
- 945 00ee 3F       		.uleb128 0x3f
- 946 00ef 19       		.uleb128 0x19
- 947 00f0 3C       		.uleb128 0x3c
- 948 00f1 19       		.uleb128 0x19
- 949 00f2 00       		.byte	0
- 950 00f3 00       		.byte	0
- 951 00f4 10       		.uleb128 0x10
- 952 00f5 35       		.uleb128 0x35
- 953 00f6 00       		.byte	0
- 954 00f7 49       		.uleb128 0x49
- 955 00f8 13       		.uleb128 0x13
- 956 00f9 00       		.byte	0
- 957 00fa 00       		.byte	0
- 958 00fb 11       		.uleb128 0x11
- 959 00fc 34       		.uleb128 0x34
- 960 00fd 00       		.byte	0
- 961 00fe 03       		.uleb128 0x3
- 962 00ff 0E       		.uleb128 0xe
- 963 0100 3A       		.uleb128 0x3a
- 964 0101 0B       		.uleb128 0xb
- 965 0102 3B       		.uleb128 0x3b
- 966 0103 0B       		.uleb128 0xb
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 19
+ 920 0056 9742     		.uleb128 0x2117
+ 921 0058 19       		.uleb128 0x19
+ 922 0059 01       		.uleb128 0x1
+ 923 005a 13       		.uleb128 0x13
+ 924 005b 00       		.byte	0
+ 925 005c 00       		.byte	0
+ 926 005d 07       		.uleb128 0x7
+ 927 005e 05       		.uleb128 0x5
+ 928 005f 00       		.byte	0
+ 929 0060 03       		.uleb128 0x3
+ 930 0061 0E       		.uleb128 0xe
+ 931 0062 3A       		.uleb128 0x3a
+ 932 0063 0B       		.uleb128 0xb
+ 933 0064 3B       		.uleb128 0x3b
+ 934 0065 0B       		.uleb128 0xb
+ 935 0066 49       		.uleb128 0x49
+ 936 0067 13       		.uleb128 0x13
+ 937 0068 02       		.uleb128 0x2
+ 938 0069 17       		.uleb128 0x17
+ 939 006a 00       		.byte	0
+ 940 006b 00       		.byte	0
+ 941 006c 08       		.uleb128 0x8
+ 942 006d 898201   		.uleb128 0x4109
+ 943 0070 01       		.byte	0x1
+ 944 0071 11       		.uleb128 0x11
+ 945 0072 01       		.uleb128 0x1
+ 946 0073 31       		.uleb128 0x31
+ 947 0074 13       		.uleb128 0x13
+ 948 0075 01       		.uleb128 0x1
+ 949 0076 13       		.uleb128 0x13
+ 950 0077 00       		.byte	0
+ 951 0078 00       		.byte	0
+ 952 0079 09       		.uleb128 0x9
+ 953 007a 8A8201   		.uleb128 0x410a
+ 954 007d 00       		.byte	0
+ 955 007e 02       		.uleb128 0x2
+ 956 007f 18       		.uleb128 0x18
+ 957 0080 9142     		.uleb128 0x2111
+ 958 0082 18       		.uleb128 0x18
+ 959 0083 00       		.byte	0
+ 960 0084 00       		.byte	0
+ 961 0085 0A       		.uleb128 0xa
+ 962 0086 898201   		.uleb128 0x4109
+ 963 0089 01       		.byte	0x1
+ 964 008a 11       		.uleb128 0x11
+ 965 008b 01       		.uleb128 0x1
+ 966 008c 31       		.uleb128 0x31
+ 967 008d 13       		.uleb128 0x13
+ 968 008e 00       		.byte	0
+ 969 008f 00       		.byte	0
+ 970 0090 0B       		.uleb128 0xb
+ 971 0091 34       		.uleb128 0x34
+ 972 0092 00       		.byte	0
+ 973 0093 03       		.uleb128 0x3
+ 974 0094 0E       		.uleb128 0xe
+ 975 0095 3A       		.uleb128 0x3a
+ 976 0096 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 20
 
 
- 967 0104 49       		.uleb128 0x49
- 968 0105 13       		.uleb128 0x13
- 969 0106 3F       		.uleb128 0x3f
- 970 0107 19       		.uleb128 0x19
- 971 0108 02       		.uleb128 0x2
- 972 0109 18       		.uleb128 0x18
- 973 010a 00       		.byte	0
- 974 010b 00       		.byte	0
- 975 010c 12       		.uleb128 0x12
- 976 010d 2E       		.uleb128 0x2e
- 977 010e 00       		.byte	0
- 978 010f 3F       		.uleb128 0x3f
- 979 0110 19       		.uleb128 0x19
- 980 0111 3C       		.uleb128 0x3c
- 981 0112 19       		.uleb128 0x19
- 982 0113 6E       		.uleb128 0x6e
- 983 0114 0E       		.uleb128 0xe
- 984 0115 03       		.uleb128 0x3
- 985 0116 0E       		.uleb128 0xe
- 986 0117 3A       		.uleb128 0x3a
- 987 0118 0B       		.uleb128 0xb
- 988 0119 3B       		.uleb128 0x3b
- 989 011a 0B       		.uleb128 0xb
- 990 011b 00       		.byte	0
- 991 011c 00       		.byte	0
- 992 011d 00       		.byte	0
- 993              		.section	.debug_loc,"",%progbits
- 994              	.Ldebug_loc0:
- 995              	.LLST0:
- 996 0000 00000000 		.4byte	.LVL0
- 997 0004 10000000 		.4byte	.LVL1
- 998 0008 0100     		.2byte	0x1
- 999 000a 50       		.byte	0x50
- 1000 000b 10000000 		.4byte	.LVL1
- 1001 000f 28000000 		.4byte	.LVL6
- 1002 0013 0400     		.2byte	0x4
- 1003 0015 F3       		.byte	0xf3
- 1004 0016 01       		.uleb128 0x1
- 1005 0017 50       		.byte	0x50
- 1006 0018 9F       		.byte	0x9f
- 1007 0019 28000000 		.4byte	.LVL6
- 1008 001d 2A000000 		.4byte	.LVL7
- 1009 0021 0100     		.2byte	0x1
- 1010 0023 50       		.byte	0x50
- 1011 0024 2A000000 		.4byte	.LVL7
- 1012 0028 42000000 		.4byte	.LVL12
- 1013 002c 0400     		.2byte	0x4
- 1014 002e F3       		.byte	0xf3
- 1015 002f 01       		.uleb128 0x1
- 1016 0030 50       		.byte	0x50
- 1017 0031 9F       		.byte	0x9f
- 1018 0032 42000000 		.4byte	.LVL12
- 1019 0036 44000000 		.4byte	.LVL13
- 1020 003a 0100     		.2byte	0x1
- 1021 003c 50       		.byte	0x50
- 1022 003d 44000000 		.4byte	.LVL13
- 1023 0041 5C000000 		.4byte	.LVL18
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 20
+ 977 0097 3B       		.uleb128 0x3b
+ 978 0098 0B       		.uleb128 0xb
+ 979 0099 49       		.uleb128 0x49
+ 980 009a 13       		.uleb128 0x13
+ 981 009b 02       		.uleb128 0x2
+ 982 009c 17       		.uleb128 0x17
+ 983 009d 00       		.byte	0
+ 984 009e 00       		.byte	0
+ 985 009f 0C       		.uleb128 0xc
+ 986 00a0 898201   		.uleb128 0x4109
+ 987 00a3 00       		.byte	0
+ 988 00a4 11       		.uleb128 0x11
+ 989 00a5 01       		.uleb128 0x1
+ 990 00a6 31       		.uleb128 0x31
+ 991 00a7 13       		.uleb128 0x13
+ 992 00a8 00       		.byte	0
+ 993 00a9 00       		.byte	0
+ 994 00aa 0D       		.uleb128 0xd
+ 995 00ab 2E       		.uleb128 0x2e
+ 996 00ac 01       		.byte	0x1
+ 997 00ad 3F       		.uleb128 0x3f
+ 998 00ae 19       		.uleb128 0x19
+ 999 00af 03       		.uleb128 0x3
+ 1000 00b0 0E       		.uleb128 0xe
+ 1001 00b1 3A       		.uleb128 0x3a
+ 1002 00b2 0B       		.uleb128 0xb
+ 1003 00b3 3B       		.uleb128 0x3b
+ 1004 00b4 0B       		.uleb128 0xb
+ 1005 00b5 27       		.uleb128 0x27
+ 1006 00b6 19       		.uleb128 0x19
+ 1007 00b7 11       		.uleb128 0x11
+ 1008 00b8 01       		.uleb128 0x1
+ 1009 00b9 12       		.uleb128 0x12
+ 1010 00ba 06       		.uleb128 0x6
+ 1011 00bb 40       		.uleb128 0x40
+ 1012 00bc 18       		.uleb128 0x18
+ 1013 00bd 9642     		.uleb128 0x2116
+ 1014 00bf 19       		.uleb128 0x19
+ 1015 00c0 01       		.uleb128 0x1
+ 1016 00c1 13       		.uleb128 0x13
+ 1017 00c2 00       		.byte	0
+ 1018 00c3 00       		.byte	0
+ 1019 00c4 0E       		.uleb128 0xe
+ 1020 00c5 2E       		.uleb128 0x2e
+ 1021 00c6 01       		.byte	0x1
+ 1022 00c7 3F       		.uleb128 0x3f
+ 1023 00c8 19       		.uleb128 0x19
+ 1024 00c9 03       		.uleb128 0x3
+ 1025 00ca 0E       		.uleb128 0xe
+ 1026 00cb 3A       		.uleb128 0x3a
+ 1027 00cc 0B       		.uleb128 0xb
+ 1028 00cd 3B       		.uleb128 0x3b
+ 1029 00ce 0B       		.uleb128 0xb
+ 1030 00cf 11       		.uleb128 0x11
+ 1031 00d0 01       		.uleb128 0x1
+ 1032 00d1 12       		.uleb128 0x12
+ 1033 00d2 06       		.uleb128 0x6
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 21
 
 
- 1024 0045 0400     		.2byte	0x4
- 1025 0047 F3       		.byte	0xf3
- 1026 0048 01       		.uleb128 0x1
- 1027 0049 50       		.byte	0x50
- 1028 004a 9F       		.byte	0x9f
- 1029 004b 5C000000 		.4byte	.LVL18
- 1030 004f 5E000000 		.4byte	.LVL19
- 1031 0053 0100     		.2byte	0x1
- 1032 0055 50       		.byte	0x50
- 1033 0056 5E000000 		.4byte	.LVL19
- 1034 005a 76000000 		.4byte	.LFE63
- 1035 005e 0400     		.2byte	0x4
- 1036 0060 F3       		.byte	0xf3
- 1037 0061 01       		.uleb128 0x1
- 1038 0062 50       		.byte	0x50
- 1039 0063 9F       		.byte	0x9f
- 1040 0064 00000000 		.4byte	0
- 1041 0068 00000000 		.4byte	0
- 1042              	.LLST1:
- 1043 006c 00000000 		.4byte	.LVL24
- 1044 0070 0A000000 		.4byte	.LVL26
- 1045 0074 0100     		.2byte	0x1
- 1046 0076 50       		.byte	0x50
- 1047 0077 0A000000 		.4byte	.LVL26
- 1048 007b 3C000000 		.4byte	.LVL32
- 1049 007f 0100     		.2byte	0x1
- 1050 0081 56       		.byte	0x56
- 1051 0082 3C000000 		.4byte	.LVL32
- 1052 0086 44000000 		.4byte	.LFE64
- 1053 008a 0400     		.2byte	0x4
- 1054 008c F3       		.byte	0xf3
- 1055 008d 01       		.uleb128 0x1
- 1056 008e 50       		.byte	0x50
- 1057 008f 9F       		.byte	0x9f
- 1058 0090 00000000 		.4byte	0
- 1059 0094 00000000 		.4byte	0
- 1060              	.LLST2:
- 1061 0098 04000000 		.4byte	.LVL25
- 1062 009c 0A000000 		.4byte	.LVL26
- 1063 00a0 0100     		.2byte	0x1
- 1064 00a2 50       		.byte	0x50
- 1065 00a3 0A000000 		.4byte	.LVL26
- 1066 00a7 3C000000 		.4byte	.LVL32
- 1067 00ab 0100     		.2byte	0x1
- 1068 00ad 54       		.byte	0x54
- 1069 00ae 00000000 		.4byte	0
- 1070 00b2 00000000 		.4byte	0
- 1071              	.LLST3:
- 1072 00b6 04000000 		.4byte	.LVL25
- 1073 00ba 0A000000 		.4byte	.LVL26
- 1074 00be 0200     		.2byte	0x2
- 1075 00c0 30       		.byte	0x30
- 1076 00c1 9F       		.byte	0x9f
- 1077 00c2 0A000000 		.4byte	.LVL26
- 1078 00c6 34000000 		.4byte	.LVL30
- 1079 00ca 0100     		.2byte	0x1
- 1080 00cc 55       		.byte	0x55
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 21
+ 1034 00d3 40       		.uleb128 0x40
+ 1035 00d4 18       		.uleb128 0x18
+ 1036 00d5 9742     		.uleb128 0x2117
+ 1037 00d7 19       		.uleb128 0x19
+ 1038 00d8 01       		.uleb128 0x1
+ 1039 00d9 13       		.uleb128 0x13
+ 1040 00da 00       		.byte	0
+ 1041 00db 00       		.byte	0
+ 1042 00dc 0F       		.uleb128 0xf
+ 1043 00dd 2E       		.uleb128 0x2e
+ 1044 00de 01       		.byte	0x1
+ 1045 00df 3F       		.uleb128 0x3f
+ 1046 00e0 19       		.uleb128 0x19
+ 1047 00e1 03       		.uleb128 0x3
+ 1048 00e2 0E       		.uleb128 0xe
+ 1049 00e3 3A       		.uleb128 0x3a
+ 1050 00e4 0B       		.uleb128 0xb
+ 1051 00e5 3B       		.uleb128 0x3b
+ 1052 00e6 0B       		.uleb128 0xb
+ 1053 00e7 27       		.uleb128 0x27
+ 1054 00e8 19       		.uleb128 0x19
+ 1055 00e9 49       		.uleb128 0x49
+ 1056 00ea 13       		.uleb128 0x13
+ 1057 00eb 8701     		.uleb128 0x87
+ 1058 00ed 19       		.uleb128 0x19
+ 1059 00ee 11       		.uleb128 0x11
+ 1060 00ef 01       		.uleb128 0x1
+ 1061 00f0 12       		.uleb128 0x12
+ 1062 00f1 06       		.uleb128 0x6
+ 1063 00f2 40       		.uleb128 0x40
+ 1064 00f3 18       		.uleb128 0x18
+ 1065 00f4 9742     		.uleb128 0x2117
+ 1066 00f6 19       		.uleb128 0x19
+ 1067 00f7 01       		.uleb128 0x1
+ 1068 00f8 13       		.uleb128 0x13
+ 1069 00f9 00       		.byte	0
+ 1070 00fa 00       		.byte	0
+ 1071 00fb 10       		.uleb128 0x10
+ 1072 00fc 34       		.uleb128 0x34
+ 1073 00fd 00       		.byte	0
+ 1074 00fe 03       		.uleb128 0x3
+ 1075 00ff 0E       		.uleb128 0xe
+ 1076 0100 3A       		.uleb128 0x3a
+ 1077 0101 0B       		.uleb128 0xb
+ 1078 0102 3B       		.uleb128 0x3b
+ 1079 0103 05       		.uleb128 0x5
+ 1080 0104 49       		.uleb128 0x49
+ 1081 0105 13       		.uleb128 0x13
+ 1082 0106 3F       		.uleb128 0x3f
+ 1083 0107 19       		.uleb128 0x19
+ 1084 0108 3C       		.uleb128 0x3c
+ 1085 0109 19       		.uleb128 0x19
+ 1086 010a 00       		.byte	0
+ 1087 010b 00       		.byte	0
+ 1088 010c 11       		.uleb128 0x11
+ 1089 010d 35       		.uleb128 0x35
+ 1090 010e 00       		.byte	0
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 22
 
 
- 1081 00cd 34000000 		.4byte	.LVL30
- 1082 00d1 36000000 		.4byte	.LVL31
- 1083 00d5 0200     		.2byte	0x2
- 1084 00d7 30       		.byte	0x30
- 1085 00d8 9F       		.byte	0x9f
- 1086 00d9 36000000 		.4byte	.LVL31
- 1087 00dd 3C000000 		.4byte	.LVL32
- 1088 00e1 0100     		.2byte	0x1
- 1089 00e3 55       		.byte	0x55
- 1090 00e4 00000000 		.4byte	0
- 1091 00e8 00000000 		.4byte	0
- 1092              	.LLST4:
- 1093 00ec 00000000 		.4byte	.LVL33
- 1094 00f0 0C000000 		.4byte	.LVL34
- 1095 00f4 0100     		.2byte	0x1
- 1096 00f6 50       		.byte	0x50
- 1097 00f7 0C000000 		.4byte	.LVL34
- 1098 00fb 2E000000 		.4byte	.LVL40
- 1099 00ff 0100     		.2byte	0x1
- 1100 0101 56       		.byte	0x56
- 1101 0102 2E000000 		.4byte	.LVL40
- 1102 0106 38000000 		.4byte	.LFE65
- 1103 010a 0400     		.2byte	0x4
- 1104 010c F3       		.byte	0xf3
- 1105 010d 01       		.uleb128 0x1
- 1106 010e 50       		.byte	0x50
- 1107 010f 9F       		.byte	0x9f
- 1108 0110 00000000 		.4byte	0
- 1109 0114 00000000 		.4byte	0
- 1110              		.section	.debug_aranges,"",%progbits
- 1111 0000 34000000 		.4byte	0x34
- 1112 0004 0200     		.2byte	0x2
- 1113 0006 00000000 		.4byte	.Ldebug_info0
- 1114 000a 04       		.byte	0x4
- 1115 000b 00       		.byte	0
- 1116 000c 0000     		.2byte	0
- 1117 000e 0000     		.2byte	0
- 1118 0010 00000000 		.4byte	.LFB63
- 1119 0014 76000000 		.4byte	.LFE63-.LFB63
- 1120 0018 00000000 		.4byte	.LFB64
- 1121 001c 44000000 		.4byte	.LFE64-.LFB64
- 1122 0020 00000000 		.4byte	.LFB65
- 1123 0024 38000000 		.4byte	.LFE65-.LFB65
- 1124 0028 00000000 		.4byte	.LFB66
- 1125 002c 10000000 		.4byte	.LFE66-.LFB66
- 1126 0030 00000000 		.4byte	0
- 1127 0034 00000000 		.4byte	0
- 1128              		.section	.debug_ranges,"",%progbits
- 1129              	.Ldebug_ranges0:
- 1130 0000 00000000 		.4byte	.LFB63
- 1131 0004 76000000 		.4byte	.LFE63
- 1132 0008 00000000 		.4byte	.LFB64
- 1133 000c 44000000 		.4byte	.LFE64
- 1134 0010 00000000 		.4byte	.LFB65
- 1135 0014 38000000 		.4byte	.LFE65
- 1136 0018 00000000 		.4byte	.LFB66
- 1137 001c 10000000 		.4byte	.LFE66
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 22
+ 1091 010f 49       		.uleb128 0x49
+ 1092 0110 13       		.uleb128 0x13
+ 1093 0111 00       		.byte	0
+ 1094 0112 00       		.byte	0
+ 1095 0113 12       		.uleb128 0x12
+ 1096 0114 34       		.uleb128 0x34
+ 1097 0115 00       		.byte	0
+ 1098 0116 03       		.uleb128 0x3
+ 1099 0117 0E       		.uleb128 0xe
+ 1100 0118 3A       		.uleb128 0x3a
+ 1101 0119 0B       		.uleb128 0xb
+ 1102 011a 3B       		.uleb128 0x3b
+ 1103 011b 0B       		.uleb128 0xb
+ 1104 011c 49       		.uleb128 0x49
+ 1105 011d 13       		.uleb128 0x13
+ 1106 011e 3F       		.uleb128 0x3f
+ 1107 011f 19       		.uleb128 0x19
+ 1108 0120 02       		.uleb128 0x2
+ 1109 0121 18       		.uleb128 0x18
+ 1110 0122 00       		.byte	0
+ 1111 0123 00       		.byte	0
+ 1112 0124 13       		.uleb128 0x13
+ 1113 0125 2E       		.uleb128 0x2e
+ 1114 0126 00       		.byte	0
+ 1115 0127 3F       		.uleb128 0x3f
+ 1116 0128 19       		.uleb128 0x19
+ 1117 0129 3C       		.uleb128 0x3c
+ 1118 012a 19       		.uleb128 0x19
+ 1119 012b 6E       		.uleb128 0x6e
+ 1120 012c 0E       		.uleb128 0xe
+ 1121 012d 03       		.uleb128 0x3
+ 1122 012e 0E       		.uleb128 0xe
+ 1123 012f 3A       		.uleb128 0x3a
+ 1124 0130 0B       		.uleb128 0xb
+ 1125 0131 3B       		.uleb128 0x3b
+ 1126 0132 0B       		.uleb128 0xb
+ 1127 0133 00       		.byte	0
+ 1128 0134 00       		.byte	0
+ 1129 0135 00       		.byte	0
+ 1130              		.section	.debug_loc,"",%progbits
+ 1131              	.Ldebug_loc0:
+ 1132              	.LLST0:
+ 1133 0000 00000000 		.4byte	.LVL0
+ 1134 0004 10000000 		.4byte	.LVL1
+ 1135 0008 0100     		.2byte	0x1
+ 1136 000a 50       		.byte	0x50
+ 1137 000b 10000000 		.4byte	.LVL1
+ 1138 000f 28000000 		.4byte	.LVL6
+ 1139 0013 0400     		.2byte	0x4
+ 1140 0015 F3       		.byte	0xf3
+ 1141 0016 01       		.uleb128 0x1
+ 1142 0017 50       		.byte	0x50
+ 1143 0018 9F       		.byte	0x9f
+ 1144 0019 28000000 		.4byte	.LVL6
+ 1145 001d 2A000000 		.4byte	.LVL7
+ 1146 0021 0100     		.2byte	0x1
+ 1147 0023 50       		.byte	0x50
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 23
 
 
- 1138 0020 00000000 		.4byte	0
- 1139 0024 00000000 		.4byte	0
- 1140              		.section	.debug_line,"",%progbits
- 1141              	.Ldebug_line0:
- 1142 0000 F6010000 		.section	.debug_str,"MS",%progbits,1
- 1142      02008F01 
- 1142      00000201 
- 1142      FB0E0D00 
- 1142      01010101 
- 1143              	.LASF32:
- 1144 0000 53746570 		.ascii	"StepperMotorTimer_ReadStatusRegister\000"
- 1144      7065724D 
- 1144      6F746F72 
- 1144      54696D65 
- 1144      725F5265 
- 1145              	.LASF29:
- 1146 0025 50696E5F 		.ascii	"Pin_2_Write\000"
- 1146      325F5772 
- 1146      69746500 
- 1147              	.LASF17:
- 1148 0031 73746570 		.ascii	"step_motor\000"
- 1148      5F6D6F74 
- 1148      6F7200
- 1149              	.LASF36:
- 1150 003c 433A5C55 		.ascii	"C:\\Users\\Haythem\\Documents\\ULB\\PROJ-H402\\Code"
- 1150      73657273 
- 1150      5C486179 
- 1150      7468656D 
- 1150      5C446F63 
- 1151 0069 5C576F72 		.ascii	"\\Workspace01\\PROJ-H402.cydsn\000"
- 1151      6B737061 
- 1151      63653031 
- 1151      5C50524F 
- 1151      4A2D4834 
- 1152              	.LASF9:
- 1153 0086 5F5F696E 		.ascii	"__int32_t\000"
- 1153      7433325F 
- 1153      7400
- 1154              	.LASF18:
- 1155 0090 73746570 		.ascii	"step\000"
- 1155      00
- 1156              	.LASF31:
- 1157 0095 50696E5F 		.ascii	"Pin_4_Write\000"
- 1157      345F5772 
- 1157      69746500 
- 1158              	.LASF27:
- 1159 00a1 50455249 		.ascii	"PERIOD\000"
- 1159      4F4400
- 1160              	.LASF26:
- 1161 00a8 53544550 		.ascii	"STEP_ANGLE\000"
- 1161      5F414E47 
- 1161      4C4500
- 1162              	.LASF12:
- 1163 00b3 666C6F61 		.ascii	"float\000"
- 1163      7400
- 1164              	.LASF22:
- 1165 00b9 636F756E 		.ascii	"counter\000"
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 23
+ 1148 0024 2A000000 		.4byte	.LVL7
+ 1149 0028 42000000 		.4byte	.LVL12
+ 1150 002c 0400     		.2byte	0x4
+ 1151 002e F3       		.byte	0xf3
+ 1152 002f 01       		.uleb128 0x1
+ 1153 0030 50       		.byte	0x50
+ 1154 0031 9F       		.byte	0x9f
+ 1155 0032 42000000 		.4byte	.LVL12
+ 1156 0036 44000000 		.4byte	.LVL13
+ 1157 003a 0100     		.2byte	0x1
+ 1158 003c 50       		.byte	0x50
+ 1159 003d 44000000 		.4byte	.LVL13
+ 1160 0041 5C000000 		.4byte	.LVL18
+ 1161 0045 0400     		.2byte	0x4
+ 1162 0047 F3       		.byte	0xf3
+ 1163 0048 01       		.uleb128 0x1
+ 1164 0049 50       		.byte	0x50
+ 1165 004a 9F       		.byte	0x9f
+ 1166 004b 5C000000 		.4byte	.LVL18
+ 1167 004f 5E000000 		.4byte	.LVL19
+ 1168 0053 0100     		.2byte	0x1
+ 1169 0055 50       		.byte	0x50
+ 1170 0056 5E000000 		.4byte	.LVL19
+ 1171 005a 76000000 		.4byte	.LFE63
+ 1172 005e 0400     		.2byte	0x4
+ 1173 0060 F3       		.byte	0xf3
+ 1174 0061 01       		.uleb128 0x1
+ 1175 0062 50       		.byte	0x50
+ 1176 0063 9F       		.byte	0x9f
+ 1177 0064 00000000 		.4byte	0
+ 1178 0068 00000000 		.4byte	0
+ 1179              	.LLST1:
+ 1180 006c 00000000 		.4byte	.LVL24
+ 1181 0070 0A000000 		.4byte	.LVL26
+ 1182 0074 0100     		.2byte	0x1
+ 1183 0076 50       		.byte	0x50
+ 1184 0077 0A000000 		.4byte	.LVL26
+ 1185 007b 38000000 		.4byte	.LVL32
+ 1186 007f 0100     		.2byte	0x1
+ 1187 0081 56       		.byte	0x56
+ 1188 0082 38000000 		.4byte	.LVL32
+ 1189 0086 3C000000 		.4byte	.LFE64
+ 1190 008a 0400     		.2byte	0x4
+ 1191 008c F3       		.byte	0xf3
+ 1192 008d 01       		.uleb128 0x1
+ 1193 008e 50       		.byte	0x50
+ 1194 008f 9F       		.byte	0x9f
+ 1195 0090 00000000 		.4byte	0
+ 1196 0094 00000000 		.4byte	0
+ 1197              	.LLST2:
+ 1198 0098 04000000 		.4byte	.LVL25
+ 1199 009c 0A000000 		.4byte	.LVL26
+ 1200 00a0 0100     		.2byte	0x1
+ 1201 00a2 50       		.byte	0x50
+ 1202 00a3 0A000000 		.4byte	.LVL26
+ 1203 00a7 38000000 		.4byte	.LVL32
+ 1204 00ab 0100     		.2byte	0x1
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 24
 
 
- 1165      74657200 
- 1166              	.LASF1:
- 1167 00c1 756E7369 		.ascii	"unsigned char\000"
- 1167      676E6564 
- 1167      20636861 
- 1167      7200
- 1168              	.LASF34:
- 1169 00cf 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
- 1169      43313120 
- 1169      352E342E 
- 1169      31203230 
- 1169      31363036 
- 1170 0102 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
- 1170      20726576 
- 1170      6973696F 
- 1170      6E203233 
- 1170      37373135 
- 1171 0135 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
- 1171      66756E63 
- 1171      74696F6E 
- 1171      2D736563 
- 1171      74696F6E 
- 1172              	.LASF5:
- 1173 015d 6C6F6E67 		.ascii	"long unsigned int\000"
- 1173      20756E73 
- 1173      69676E65 
- 1173      6420696E 
- 1173      7400
- 1174              	.LASF3:
- 1175 016f 73686F72 		.ascii	"short unsigned int\000"
- 1175      7420756E 
- 1175      7369676E 
- 1175      65642069 
- 1175      6E7400
- 1176              	.LASF30:
- 1177 0182 50696E5F 		.ascii	"Pin_3_Write\000"
- 1177      335F5772 
- 1177      69746500 
- 1178              	.LASF23:
- 1179 018e 7475726E 		.ascii	"turn_motor\000"
- 1179      5F6D6F74 
- 1179      6F7200
- 1180              	.LASF21:
- 1181 0199 73746570 		.ascii	"steps_left\000"
- 1181      735F6C65 
- 1181      667400
- 1182              	.LASF13:
- 1183 01a4 646F7562 		.ascii	"double\000"
- 1183      6C6500
- 1184              	.LASF37:
- 1185 01ab 6D61696E 		.ascii	"main\000"
- 1185      00
- 1186              	.LASF25:
- 1187 01b0 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 1187      52784275 
- 1187      66666572 
- 1187      00
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 24
+ 1205 00ad 54       		.byte	0x54
+ 1206 00ae 00000000 		.4byte	0
+ 1207 00b2 00000000 		.4byte	0
+ 1208              	.LLST3:
+ 1209 00b6 04000000 		.4byte	.LVL25
+ 1210 00ba 0A000000 		.4byte	.LVL26
+ 1211 00be 0200     		.2byte	0x2
+ 1212 00c0 30       		.byte	0x30
+ 1213 00c1 9F       		.byte	0x9f
+ 1214 00c2 0A000000 		.4byte	.LVL26
+ 1215 00c6 30000000 		.4byte	.LVL30
+ 1216 00ca 0100     		.2byte	0x1
+ 1217 00cc 55       		.byte	0x55
+ 1218 00cd 30000000 		.4byte	.LVL30
+ 1219 00d1 32000000 		.4byte	.LVL31
+ 1220 00d5 0200     		.2byte	0x2
+ 1221 00d7 30       		.byte	0x30
+ 1222 00d8 9F       		.byte	0x9f
+ 1223 00d9 32000000 		.4byte	.LVL31
+ 1224 00dd 38000000 		.4byte	.LVL32
+ 1225 00e1 0100     		.2byte	0x1
+ 1226 00e3 55       		.byte	0x55
+ 1227 00e4 00000000 		.4byte	0
+ 1228 00e8 00000000 		.4byte	0
+ 1229              	.LLST4:
+ 1230 00ec 00000000 		.4byte	.LVL33
+ 1231 00f0 05000000 		.4byte	.LVL34-1
+ 1232 00f4 0100     		.2byte	0x1
+ 1233 00f6 50       		.byte	0x50
+ 1234 00f7 05000000 		.4byte	.LVL34-1
+ 1235 00fb 1C000000 		.4byte	.LFE65
+ 1236 00ff 0400     		.2byte	0x4
+ 1237 0101 F3       		.byte	0xf3
+ 1238 0102 01       		.uleb128 0x1
+ 1239 0103 50       		.byte	0x50
+ 1240 0104 9F       		.byte	0x9f
+ 1241 0105 00000000 		.4byte	0
+ 1242 0109 00000000 		.4byte	0
+ 1243              		.section	.debug_aranges,"",%progbits
+ 1244 0000 3C000000 		.4byte	0x3c
+ 1245 0004 0200     		.2byte	0x2
+ 1246 0006 00000000 		.4byte	.Ldebug_info0
+ 1247 000a 04       		.byte	0x4
+ 1248 000b 00       		.byte	0
+ 1249 000c 0000     		.2byte	0
+ 1250 000e 0000     		.2byte	0
+ 1251 0010 00000000 		.4byte	.LFB63
+ 1252 0014 76000000 		.4byte	.LFE63-.LFB63
+ 1253 0018 00000000 		.4byte	.LFB64
+ 1254 001c 3C000000 		.4byte	.LFE64-.LFB64
+ 1255 0020 00000000 		.4byte	.LFB65
+ 1256 0024 1C000000 		.4byte	.LFE65-.LFB65
+ 1257 0028 00000000 		.4byte	.LFB66
+ 1258 002c 3C000000 		.4byte	.LFE66-.LFB66
+ 1259 0030 00000000 		.4byte	.LFB67
+ 1260 0034 2E000000 		.4byte	.LFE67-.LFB67
+ 1261 0038 00000000 		.4byte	0
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 25
 
 
- 1188              	.LASF8:
- 1189 01bd 756E7369 		.ascii	"unsigned int\000"
- 1189      676E6564 
- 1189      20696E74 
- 1189      00
- 1190              	.LASF20:
- 1191 01ca 73746570 		.ascii	"steps_to_move\000"
- 1191      735F746F 
- 1191      5F6D6F76 
- 1191      6500
- 1192              	.LASF7:
- 1193 01d8 6C6F6E67 		.ascii	"long long unsigned int\000"
- 1193      206C6F6E 
- 1193      6720756E 
- 1193      7369676E 
- 1193      65642069 
- 1194              	.LASF19:
- 1195 01ef 74686973 		.ascii	"this_step\000"
- 1195      5F737465 
- 1195      7000
- 1196              	.LASF24:
- 1197 01f9 726F7461 		.ascii	"rotations\000"
- 1197      74696F6E 
- 1197      7300
- 1198              	.LASF10:
- 1199 0203 696E7433 		.ascii	"int32_t\000"
- 1199      325F7400 
- 1200              	.LASF16:
- 1201 020b 73697A65 		.ascii	"sizetype\000"
- 1201      74797065 
- 1201      00
- 1202              	.LASF6:
- 1203 0214 6C6F6E67 		.ascii	"long long int\000"
- 1203      206C6F6E 
- 1203      6720696E 
- 1203      7400
- 1204              	.LASF35:
- 1205 0222 6D61696E 		.ascii	"main.c\000"
- 1205      2E6300
- 1206              	.LASF14:
- 1207 0229 63686172 		.ascii	"char\000"
- 1207      00
- 1208              	.LASF2:
- 1209 022e 73686F72 		.ascii	"short int\000"
- 1209      7420696E 
- 1209      7400
- 1210              	.LASF11:
- 1211 0238 75696E74 		.ascii	"uint8\000"
- 1211      3800
- 1212              	.LASF4:
- 1213 023e 6C6F6E67 		.ascii	"long int\000"
- 1213      20696E74 
- 1213      00
- 1214              	.LASF15:
- 1215 0247 6C6F6E67 		.ascii	"long double\000"
- 1215      20646F75 
- 1215      626C6500 
-ARM GAS  C:\Users\Haythem\AppData\Local\Temp\ccFuJJ7d.s 			page 25
+ 1262 003c 00000000 		.4byte	0
+ 1263              		.section	.debug_ranges,"",%progbits
+ 1264              	.Ldebug_ranges0:
+ 1265 0000 00000000 		.4byte	.LFB63
+ 1266 0004 76000000 		.4byte	.LFE63
+ 1267 0008 00000000 		.4byte	.LFB64
+ 1268 000c 3C000000 		.4byte	.LFE64
+ 1269 0010 00000000 		.4byte	.LFB65
+ 1270 0014 1C000000 		.4byte	.LFE65
+ 1271 0018 00000000 		.4byte	.LFB66
+ 1272 001c 3C000000 		.4byte	.LFE66
+ 1273 0020 00000000 		.4byte	.LFB67
+ 1274 0024 2E000000 		.4byte	.LFE67
+ 1275 0028 00000000 		.4byte	0
+ 1276 002c 00000000 		.4byte	0
+ 1277              		.section	.debug_line,"",%progbits
+ 1278              	.Ldebug_line0:
+ 1279 0000 3B020000 		.section	.debug_str,"MS",%progbits,1
+ 1279      0200B501 
+ 1279      00000201 
+ 1279      FB0E0D00 
+ 1279      01010101 
+ 1280              	.LASF30:
+ 1281 0000 53746570 		.ascii	"StepperMotorTimer_ReadStatusRegister\000"
+ 1281      7065724D 
+ 1281      6F746F72 
+ 1281      54696D65 
+ 1281      725F5265 
+ 1282              	.LASF36:
+ 1283 0025 5357325F 		.ascii	"SW2_Read\000"
+ 1283      52656164 
+ 1283      00
+ 1284              	.LASF27:
+ 1285 002e 50696E5F 		.ascii	"Pin_2_Write\000"
+ 1285      325F5772 
+ 1285      69746500 
+ 1286              	.LASF17:
+ 1287 003a 73746570 		.ascii	"step_motor\000"
+ 1287      5F6D6F74 
+ 1287      6F7200
+ 1288              	.LASF39:
+ 1289 0045 433A5C55 		.ascii	"C:\\Users\\Haythem\\Documents\\ULB\\PROJ-H402\\Code"
+ 1289      73657273 
+ 1289      5C486179 
+ 1289      7468656D 
+ 1289      5C446F63 
+ 1290 0072 5C576F72 		.ascii	"\\Workspace01\\PROJ-H402.cydsn\000"
+ 1290      6B737061 
+ 1290      63653031 
+ 1290      5C50524F 
+ 1290      4A2D4834 
+ 1291              	.LASF9:
+ 1292 008f 5F5F696E 		.ascii	"__int32_t\000"
+ 1292      7433325F 
+ 1292      7400
+ 1293              	.LASF18:
+ 1294 0099 73746570 		.ascii	"step\000"
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 26
 
 
- 1216              	.LASF0:
- 1217 0253 7369676E 		.ascii	"signed char\000"
- 1217      65642063 
- 1217      68617200 
- 1218              	.LASF28:
- 1219 025f 50696E5F 		.ascii	"Pin_1_Write\000"
- 1219      315F5772 
- 1219      69746500 
- 1220              	.LASF33:
- 1221 026b 53746570 		.ascii	"StepperMotorTimer_Start\000"
- 1221      7065724D 
- 1221      6F746F72 
- 1221      54696D65 
- 1221      725F5374 
- 1222              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
+ 1294      00
+ 1295              	.LASF40:
+ 1296 009e 746F6767 		.ascii	"toggle_servo_position\000"
+ 1296      6C655F73 
+ 1296      6572766F 
+ 1296      5F706F73 
+ 1296      6974696F 
+ 1297              	.LASF29:
+ 1298 00b4 50696E5F 		.ascii	"Pin_4_Write\000"
+ 1298      345F5772 
+ 1298      69746500 
+ 1299              	.LASF12:
+ 1300 00c0 666C6F61 		.ascii	"float\000"
+ 1300      7400
+ 1301              	.LASF21:
+ 1302 00c6 636F756E 		.ascii	"counter\000"
+ 1302      74657200 
+ 1303              	.LASF11:
+ 1304 00ce 75696E74 		.ascii	"uint8\000"
+ 1304      3800
+ 1305              	.LASF1:
+ 1306 00d4 756E7369 		.ascii	"unsigned char\000"
+ 1306      676E6564 
+ 1306      20636861 
+ 1306      7200
+ 1307              	.LASF37:
+ 1308 00e2 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1308      43313120 
+ 1308      352E342E 
+ 1308      31203230 
+ 1308      31363036 
+ 1309 0115 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1309      20726576 
+ 1309      6973696F 
+ 1309      6E203233 
+ 1309      37373135 
+ 1310 0148 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1310      66756E63 
+ 1310      74696F6E 
+ 1310      2D736563 
+ 1310      74696F6E 
+ 1311              	.LASF5:
+ 1312 0170 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1312      20756E73 
+ 1312      69676E65 
+ 1312      6420696E 
+ 1312      7400
+ 1313              	.LASF3:
+ 1314 0182 73686F72 		.ascii	"short unsigned int\000"
+ 1314      7420756E 
+ 1314      7369676E 
+ 1314      65642069 
+ 1314      6E7400
+ 1315              	.LASF28:
+ 1316 0195 50696E5F 		.ascii	"Pin_3_Write\000"
+ 1316      335F5772 
+ 1316      69746500 
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 27
+
+
+ 1317              	.LASF22:
+ 1318 01a1 7475726E 		.ascii	"turn_motor\000"
+ 1318      5F6D6F74 
+ 1318      6F7200
+ 1319              	.LASF20:
+ 1320 01ac 73746570 		.ascii	"steps_left\000"
+ 1320      735F6C65 
+ 1320      667400
+ 1321              	.LASF13:
+ 1322 01b7 646F7562 		.ascii	"double\000"
+ 1322      6C6500
+ 1323              	.LASF31:
+ 1324 01be 50574D5F 		.ascii	"PWM_WriteCompare\000"
+ 1324      57726974 
+ 1324      65436F6D 
+ 1324      70617265 
+ 1324      00
+ 1325              	.LASF41:
+ 1326 01cf 6D61696E 		.ascii	"main\000"
+ 1326      00
+ 1327              	.LASF24:
+ 1328 01d4 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1328      52784275 
+ 1328      66666572 
+ 1328      00
+ 1329              	.LASF8:
+ 1330 01e1 756E7369 		.ascii	"unsigned int\000"
+ 1330      676E6564 
+ 1330      20696E74 
+ 1330      00
+ 1331              	.LASF19:
+ 1332 01ee 73746570 		.ascii	"steps_to_move\000"
+ 1332      735F746F 
+ 1332      5F6D6F76 
+ 1332      6500
+ 1333              	.LASF7:
+ 1334 01fc 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1334      206C6F6E 
+ 1334      6720756E 
+ 1334      7369676E 
+ 1334      65642069 
+ 1335              	.LASF35:
+ 1336 0213 5357315F 		.ascii	"SW1_Read\000"
+ 1336      52656164 
+ 1336      00
+ 1337              	.LASF23:
+ 1338 021c 726F7461 		.ascii	"rotations\000"
+ 1338      74696F6E 
+ 1338      7300
+ 1339              	.LASF25:
+ 1340 0226 73657276 		.ascii	"servo_position\000"
+ 1340      6F5F706F 
+ 1340      73697469 
+ 1340      6F6E00
+ 1341              	.LASF10:
+ 1342 0235 696E7433 		.ascii	"int32_t\000"
+ 1342      325F7400 
+ARM GAS  C:\Users\Haythem\AppData\Local\Temp\cc986R9c.s 			page 28
+
+
+ 1343              	.LASF16:
+ 1344 023d 73697A65 		.ascii	"sizetype\000"
+ 1344      74797065 
+ 1344      00
+ 1345              	.LASF6:
+ 1346 0246 6C6F6E67 		.ascii	"long long int\000"
+ 1346      206C6F6E 
+ 1346      6720696E 
+ 1346      7400
+ 1347              	.LASF38:
+ 1348 0254 6D61696E 		.ascii	"main.c\000"
+ 1348      2E6300
+ 1349              	.LASF14:
+ 1350 025b 63686172 		.ascii	"char\000"
+ 1350      00
+ 1351              	.LASF2:
+ 1352 0260 73686F72 		.ascii	"short int\000"
+ 1352      7420696E 
+ 1352      7400
+ 1353              	.LASF34:
+ 1354 026a 50574D5F 		.ascii	"PWM_Start\000"
+ 1354      53746172 
+ 1354      7400
+ 1355              	.LASF4:
+ 1356 0274 6C6F6E67 		.ascii	"long int\000"
+ 1356      20696E74 
+ 1356      00
+ 1357              	.LASF15:
+ 1358 027d 6C6F6E67 		.ascii	"long double\000"
+ 1358      20646F75 
+ 1358      626C6500 
+ 1359              	.LASF0:
+ 1360 0289 7369676E 		.ascii	"signed char\000"
+ 1360      65642063 
+ 1360      68617200 
+ 1361              	.LASF26:
+ 1362 0295 50696E5F 		.ascii	"Pin_1_Write\000"
+ 1362      315F5772 
+ 1362      69746500 
+ 1363              	.LASF33:
+ 1364 02a1 53746570 		.ascii	"StepperMotorTimer_Start\000"
+ 1364      7065724D 
+ 1364      6F746F72 
+ 1364      54696D65 
+ 1364      725F5374 
+ 1365              	.LASF32:
+ 1366 02b9 43794465 		.ascii	"CyDelay\000"
+ 1366      6C617900 
+ 1367              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
