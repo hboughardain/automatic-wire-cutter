@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: Pin_4.h  
+* File Name: CutterPin2.h  
 * Version 2.20
 *
 * Description:
@@ -15,8 +15,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_Pin_4_ALIASES_H) /* Pins Pin_4_ALIASES_H */
-#define CY_PINS_Pin_4_ALIASES_H
+#if !defined(CY_PINS_CutterPin2_ALIASES_H) /* Pins CutterPin2_ALIASES_H */
+#define CY_PINS_CutterPin2_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,12 +25,12 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define Pin_4_0			(Pin_4__0__PC)
-#define Pin_4_0_INTR	((uint16)((uint16)0x0001u << Pin_4__0__SHIFT))
+#define CutterPin2_0			(CutterPin2__0__PC)
+#define CutterPin2_0_INTR	((uint16)((uint16)0x0001u << CutterPin2__0__SHIFT))
 
-#define Pin_4_INTR_ALL	 ((uint16)(Pin_4_0_INTR))
+#define CutterPin2_INTR_ALL	 ((uint16)(CutterPin2_0_INTR))
 
-#endif /* End Pins Pin_4_ALIASES_H */
+#endif /* End Pins CutterPin2_ALIASES_H */
 
 
 /* [] END OF FILE */

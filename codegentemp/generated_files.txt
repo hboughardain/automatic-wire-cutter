@@ -18,18 +18,18 @@
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\cyfitteriar.inc" value="HEADER;;;;;" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\cyfitter.h" value="HEADER;;;;;" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\cydisabledsheets.h" value="HEADER;;;;;" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_3_aliases.h" value="HEADER;;;;;Pin_3" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_3.c" value="SOURCE_C;CortexM3;;;;Pin_3" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_3.h" value="HEADER;;;;;Pin_3" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_2_aliases.h" value="HEADER;;;;;Pin_2" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_2.c" value="SOURCE_C;CortexM3;;;;Pin_2" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_2.h" value="HEADER;;;;;Pin_2" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_1_aliases.h" value="HEADER;;;;;Pin_1" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_1.c" value="SOURCE_C;CortexM3;;;;Pin_1" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_1.h" value="HEADER;;;;;Pin_1" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_4_aliases.h" value="HEADER;;;;;Pin_4" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_4.c" value="SOURCE_C;CortexM3;;;;Pin_4" />
-  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Pin_4.h" value="HEADER;;;;;Pin_4" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin3_aliases.h" value="HEADER;;;;;FeederPin3" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin3.c" value="SOURCE_C;CortexM3;;;;FeederPin3" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin3.h" value="HEADER;;;;;FeederPin3" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin2_aliases.h" value="HEADER;;;;;FeederPin2" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin2.c" value="SOURCE_C;CortexM3;;;;FeederPin2" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin2.h" value="HEADER;;;;;FeederPin2" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin1_aliases.h" value="HEADER;;;;;FeederPin1" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin1.c" value="SOURCE_C;CortexM3;;;;FeederPin1" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin1.h" value="HEADER;;;;;FeederPin1" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin4_aliases.h" value="HEADER;;;;;FeederPin4" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin4.c" value="SOURCE_C;CortexM3;;;;FeederPin4" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\FeederPin4.h" value="HEADER;;;;;FeederPin4" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\StepperMotorTimer.c" value="SOURCE_C;CortexM3;;;;StepperMotorTimer" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\StepperMotorTimer.h" value="HEADER;;;;;StepperMotorTimer" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\StepperMotorTimer_PM.c" value="SOURCE_C;CortexM3;;;;StepperMotorTimer" />
@@ -55,6 +55,18 @@
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\SW4_aliases.h" value="HEADER;;;;;SW4" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\SW4.c" value="SOURCE_C;CortexM3;;;;SW4" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\SW4.h" value="HEADER;;;;;SW4" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin1_aliases.h" value="HEADER;;;;;CutterPin1" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin1.c" value="SOURCE_C;CortexM3;;;;CutterPin1" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin1.h" value="HEADER;;;;;CutterPin1" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin2_aliases.h" value="HEADER;;;;;CutterPin2" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin2.c" value="SOURCE_C;CortexM3;;;;CutterPin2" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin2.h" value="HEADER;;;;;CutterPin2" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin3_aliases.h" value="HEADER;;;;;CutterPin3" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin3.c" value="SOURCE_C;CortexM3;;;;CutterPin3" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin3.h" value="HEADER;;;;;CutterPin3" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin4_aliases.h" value="HEADER;;;;;CutterPin4" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin4.c" value="SOURCE_C;CortexM3;;;;CutterPin4" />
+  <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\CutterPin4.h" value="HEADER;;;;;CutterPin4" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\cm3gcc.ld" value="LINKER_SCRIPT;;;b98f980c-3bd1-4fc7-a887-c56a20a46fdd;;cy_boot" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Cm3RealView.scat" value="LINKER_SCRIPT;;;fdb8e1ae-f83a-46cf-9446-1d703716f38a;;cy_boot" />
   <file name="C:\Users\Haythem\Documents\ULB\PROJ-H402\Code\Workspace01\PROJ-H402.cydsn\codegentemp\Cm3Start.c" value="SOURCE_C;CortexM3;;;;cy_boot" />

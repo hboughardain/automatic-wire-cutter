@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: Pin_1.h  
+* File Name: FeederPin3.h  
 * Version 2.20
 *
 * Description:
@@ -15,8 +15,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_Pin_1_ALIASES_H) /* Pins Pin_1_ALIASES_H */
-#define CY_PINS_Pin_1_ALIASES_H
+#if !defined(CY_PINS_FeederPin3_ALIASES_H) /* Pins FeederPin3_ALIASES_H */
+#define CY_PINS_FeederPin3_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,12 +25,12 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define Pin_1_0			(Pin_1__0__PC)
-#define Pin_1_0_INTR	((uint16)((uint16)0x0001u << Pin_1__0__SHIFT))
+#define FeederPin3_0			(FeederPin3__0__PC)
+#define FeederPin3_0_INTR	((uint16)((uint16)0x0001u << FeederPin3__0__SHIFT))
 
-#define Pin_1_INTR_ALL	 ((uint16)(Pin_1_0_INTR))
+#define FeederPin3_INTR_ALL	 ((uint16)(FeederPin3_0_INTR))
 
-#endif /* End Pins Pin_1_ALIASES_H */
+#endif /* End Pins FeederPin3_ALIASES_H */
 
 
 /* [] END OF FILE */

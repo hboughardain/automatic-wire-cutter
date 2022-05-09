@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <blockRegMap version="1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://cypress.com/xsd/cyblockregmap cyblockregmap.xsd" xmlns="http://cypress.com/xsd/cyblockregmap">
+  <block name="SW4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="CutterPin1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="SW3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SW1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="SW2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="PWMClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Servomotor" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="cy_boot" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="Em_EEPROM_Dynamic" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SW3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="SW4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="CutterPin4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="CutterPin2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="CutterPin3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="Servomotor" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="FeederPin4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="TimerClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="FeederPin1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="FeederPin3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="FeederPin2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="PWM" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="vmIRQ" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="vmCompare" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -82,10 +90,9 @@
       </field>
     </register>
   </block>
-  <block name="Pin_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Pin_4" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Pin_3" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="Pin_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="PWMClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="StepperMotorTimerInterrupt" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
+  <block name="ZeroTerminal_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
   <block name="StepperMotorTimer" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false">
     <block name="VirtualMux_2" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
     <block name="ZeroTerminal_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
@@ -143,7 +150,4 @@
     <register name="StepperMotorTimer_PERIOD" address="0x40004F04" bitWidth="16" desc="TMRx.PER0 - Assigned Period" hidden="false" />
     <register name="StepperMotorTimer_COUNTER" address="0x40004F06" bitWidth="16" desc="TMRx.CNT_CMP0 - Current Down Counter Value" hidden="false" />
   </block>
-  <block name="StepperMotorTimerInterrupt" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="TimerClock" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
-  <block name="ZeroTerminal_1" BASE="0x0" SIZE="0x0" desc="" visible="true" hidden="false" />
 </blockRegMap>
