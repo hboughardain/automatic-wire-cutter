@@ -1,0 +1,9 @@
+Pour utiliser le prototype, il faut en premier lieu brancher celui-ci à deux sources d'alimentation :
+\begin{itemize}
+    \item sur le breadboard dans les colonnes dédiées à l'alimentation de 5V et la masse ;
+    \item sur le microcontrôleur via une des entrées USB présentes (soit le Micro-USB, soit l'USB-A).
+\end{itemize}
+
+\par Lorsque le prototype est alimenté, celui-ci démarre automatiquement, et tirera et coupera du fil électrique fourni par la bobine de manière continue jusqu'à ce que l'alimentation du prototype soit interrompue manuellement.
+
+\par Éventuellement, il est aussi possible de modifier le code du microcontroleur en utilisant PSoC Creator ; notamment en modifiant l'argument de \verb|turn_feeder_motor()| dans le \verb|main()|, étant donné que celui-ci indique la longueur en mm du fil qui sera tiré. Ainsi, en modifiant ce paramètre, il est possible d'avoir des longueurs de fil coupé de longueur arbitraire.

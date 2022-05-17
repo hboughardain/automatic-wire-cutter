@@ -1,0 +1,130 @@
+\documentclass[a4paper, 12pt, oneside]{article}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage[french]{babel}
+    \selectlanguage{french}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, mathrsfs}
+\usepackage[LGRgreek]{mathastext}
+\usepackage{fixmath}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{graphics}
+\usepackage{float}
+\usepackage{systeme}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\usepackage[version=4]{mhchem}
+\usepackage{titlesec}
+\usepackage{verbatim}
+\usepackage{mdframed}
+\usepackage{subfig}
+\usepackage{appendix}
+\usepackage{longtable}
+\usepackage{adjustbox}
+\usepackage{multirow}
+\usepackage{makeidx}
+\usepackage{eurosym}
+\usepackage{listings}
+\usepackage{booktabs}
+\usepackage{csquotes}
+\usepackage[nottoc,notlot,notlof]{tocbibind}
+\makeatletter
+\renewcommand*{\@dotsep}{999}
+\makeatother
+\usepackage[normalem]{ulem}
+\useunder{\uline}{\ul}{}
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\usepackage{array}
+\usepackage[left = 2 cm, right = 2cm, top = 2.5cm, bottom = 2.5cm]{geometry}
+\usepackage{hyperref}
+\usepackage[hypcap=false, justification=centering]{caption}
+\sloppy
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{xspace}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\protected\def\psverb#1{\def\innerpsverb##1#1{\texttt{##1}}\innerpsverb}
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\scshape}{\thesection}{1em}{}[{\titlerule[0.8pt]}]
+ \titleformat{\subsection}
+  {\normalfont\bfseries}{\thesubsection}{1em}{}[{\titlerule[0.4pt]}]
+ \titleformat{\subsubsection}
+  {\normalfont\itshape}{\thesubsection}{1em}{}[{\titlerule[0.2pt]}]
+
+\begin{document}
+\renewcommand{\labelitemi}{-}
+\renewcommand{\labelitemii}{$\circ$}
+\mathcode`*=\string"8000
+\begingroup
+\catcode`*=\active
+\xdef*{\noexpand\textup{\string*}}
+\endgroup
+
+\begin{titlepage} 
+\input{corps/0-page-de-garde}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+
+\pagenumbering{arabic}
+\section{Introduction}
+\input{corps/1-intro}
+\label{section1-intro}
+
+\section{Choix technologiques}
+\input{corps/2-choix-technologiques}
+\label{section2-choix-technologiques}
+
+\section{Duplication du prototype}
+\input{corps/3-duplication}
+\label{section3-duplication}
+
+\section{Utilisation du prototype}
+\input{corps/4-utilisation}
+\label{section4-utilisation}
+
+\section{Améliorations éventuelles du prototype}
+\input{corps/5-améliorations}
+\label{section5-améliorations}
+
+\section{Conclusion}
+\input{corps/6-conclusion}
+\label{section6-conclusion}
+
+\newpage
+\appendix
+
+\section{Code}
+\input{corps/a-code}
+
+\end{document}
